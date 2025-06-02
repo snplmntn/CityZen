@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { ScrollView, View, Image, StyleSheet } from "react-native";
 import { Avatar, Surface, Text, ActivityIndicator, Divider, useTheme } from "react-native-paper";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
@@ -17,7 +17,26 @@ const posts = [
     reporter: "CitiZen 1",
     incidentType: "fire",
     description: "A fire broke out at [address] because [reason]. [More details]",
-    // Does JS output ISO8601 by default?
+    timestamp: 1748870977000
+  },
+  {
+    coordinates: {
+      latitude: 14.695071430733512,
+      longitude: 121.12781440770512
+    },
+    reporter: "CitiZen 2",
+    incidentType: "fire",
+    description: "A fire broke out at [address] because [reason]. [More details]",
+    timestamp: 1748870977000
+  },
+  {
+    coordinates: {
+      latitude: 14.625071430733512,
+      longitude: 121.12781440770512
+    },
+    reporter: "CitiZen 3",
+    incidentType: "fire",
+    description: "A fire broke out at [address] because [reason]. [More details]",
     timestamp: 1748870977000
   }
 ];
@@ -28,7 +47,7 @@ const HomeScreen = () => {
   const { colors } = useTheme();
 
   useFetchLocation({ setLocation, setLocationPermission });
-  
+
   // TODO: Add an auth check and guard routes
   if (locationPermission === false) {
     return (
@@ -71,35 +90,36 @@ const HomeScreen = () => {
           </MapView>
         </View>
         <View style={[styles.mapOverlay, {backgroundColor: "#222"}]}>
-            <Text style={{ fontWeight: "bold" }}>
-              <FontAwesome5 name="exclamation-triangle" size={12} color={colors.primary}/> 1.2km Nearby Incident
-            </Text>
-          </View>
+          <Text style={{ fontWeight: "bold" }}>
+            <FontAwesome5 name="exclamation-triangle" size={12} color={colors.primary}/> 1.2km Nearby Incident
+          </Text>
+        </View>
 
       </View>
       <Surface 
-        style={[styles.card, {backgroundColor: '#222'}]}
+        style={[styles.card, {backgroundColor: '#222' }]}
         elevation={5}
       >
         <Text variant="displaySmall" style={{ fontWeight: "bold" }}>
           Activity Feed
         </Text>
         <Divider style={{ margin: 16 }}/>
-        {posts.map((post, index) => {
-          return (
-            <ActivityFeedPostCard
-              key={index}
-              userLocation={location}
-              incidentCoordinates={post.coordinates}
-              reporter={post.reporter}
-              incidentType={post.incidentType}
-              description={post.description}
-              timestamp={post.timestamp}
-            />
-          );
-        })}
+        <ScrollView style={{ marginBottom: 275 }}>
+          {posts.map((post, index) => {
+            return (
+              <ActivityFeedPostCard
+                key={index}
+                userLocation={location}
+                incidentCoordinates={post.coordinates}
+                reporter={post.reporter}
+                incidentType={post.incidentType}
+                description={post.description}
+                timestamp={post.timestamp}
+              />
+            );
+          })}
+        </ScrollView>
       </Surface>
-      <Text variant="displayLarge" style={{color: colors.primary}}></Text>
     </Surface>
   );
 }
@@ -134,6 +154,6 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 16
   },
-  })
+})
 
 export default HomeScreen;
