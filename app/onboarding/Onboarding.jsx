@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 250,
-    height: 250,
+    width: 225,
+    height: 225,
     resizeMode: "contain",
     marginBottom: 60,
     opacity: 0.8,
@@ -196,16 +196,16 @@ const styles = StyleSheet.create({
 
   dot: {
     width: 15,
-    height: 5,
+    height: 4,
     borderRadius: 2,
-    backgroundColor: "#555",
+    backgroundColor: "#4b5563",
     marginHorizontal: 4,
   },
 
   activeDot: {
     backgroundColor: "#2563eb",
     width: 30,
-    height: 5,
+    height: 4,
     borderRadius: 2,
   },
 
