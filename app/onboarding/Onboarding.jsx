@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import {
@@ -7,6 +8,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
   ViewToken,
 } from "react-native";
@@ -20,7 +22,7 @@ const onboardingScreens = [
     subtitle: "Your community safety companion",
     description:
       "Join thousands of citizens making their neighborhoods safer through real-time incident reporting and alerts.",
-    image: require("../assets/images/safety.jpg"),
+    image: require("../../assets/images/safety.jpg"),
   },
   {
     id: "2",
@@ -28,7 +30,7 @@ const onboardingScreens = [
     subtitle: "Stay informed, stay safe",
     description:
       "Receive instant notifications about incidents in your area. From traffic accidents to emergencies, we keep you in the loop.",
-    image: require("../assets/images/safety.jpg"),
+    image: require("../../assets/images/safety.jpg"),
   },
   {
     id: "3",
@@ -36,7 +38,7 @@ const onboardingScreens = [
     subtitle: "Make a difference",
     description:
       "Easily report incidents with our AI-powered system. Take photos or videos, and our technology will help categorize and verify the information.",
-    image: "https://via.placeholder.com/300.png?text=CityZen",
+    image: require("../../assets/images/safety.jpg"),
   },
   {
     id: "4",
@@ -44,14 +46,30 @@ const onboardingScreens = [
     subtitle: "Crowdsourced accuracy",
     description:
       "Our unique verification system allows community members to confirm or dispute reported incidents, ensuring information accuracy.",
-    image:
-      "https://readdy.ai/api/search-image?query=Modern%20minimalist%20illustration%20of%20multiple%20user%20profiles%20with%20checkmarks&width=300&height=300",
+    image: require("../../assets/images/safety.jpg"),
+  },
+  {
+    id: 5,
+    title: "Interactive Maps",
+    subtitle: "Visualize safety information",
+    description:
+      "View incident hotspots, safe routes, and emergency services on our interactive map. Plan your movements with confidence.",
+    image: require("../../assets/images/safety.jpg"),
+  },
+  {
+    id: 6,
+    title: "Privacy & Security",
+    subtitle: "Your data is protected",
+    description:
+      "We prioritize your privacy and security. All reports can be anonymous, and your personal information is never shared without consent.",
+    image: require("../../assets/images/safety.jpg"),
   },
 ];
 
 const Onboarding = () => {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const viewableItemsChanged = useRef(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
       if (viewableItems.length > 0) {
@@ -66,7 +84,10 @@ const Onboarding = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#1e3a8a", "#000000"]} // blue-900 to black
+      style={styles.gradient}
+    >
       <FlatList
         data={onboardingScreens}
         keyExtractor={(item) => item.id}
@@ -77,22 +98,21 @@ const Onboarding = () => {
         viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
         renderItem={({ item }) => (
           <View style={styles.slide}>
-            <Image source={{ uri: item.image }} style={styles.image} />
+            <Image
+              source={
+                typeof item.image === "string"
+                  ? { uri: item.image }
+                  : item.image
+              }
+              style={styles.image}
+            />
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.subtitle}>{item.subtitle}</Text>
             <Text style={styles.description}>{item.description}</Text>
           </View>
         )}
-        onMomentumScrollEnd={() => {
-          if (currentIndex === onboardingScreens.length - 1) {
-            setTimeout(() => {
-              handleFinish();
-            }, 1500);
-          }
-        }}
       />
 
-      {/* Dot indicators */}
       <View style={styles.dotsContainer}>
         {onboardingScreens.map((_, index) => (
           <View
@@ -101,65 +121,126 @@ const Onboarding = () => {
           />
         ))}
       </View>
-    </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.primaryButton} onPress={handleFinish}>
+          <Text style={styles.primaryButtonText}>Get started</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => router.replace("/login")}
+        >
+          <Text style={styles.secondaryButtonText}>Log in</Text>
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 };
 
 export default Onboarding;
 
 const styles = StyleSheet.create({
-  container: {
+  gradient: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
   },
+
   slide: {
     width,
     padding: 24,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 60,
   },
+
   image: {
     width: 250,
     height: 250,
     resizeMode: "contain",
-    marginBottom: 24,
+    marginBottom: 60,
+    opacity: 0.8,
   },
+
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
+    color: "#ffffff",
     marginBottom: 6,
     textAlign: "center",
   },
+
   subtitle: {
-    fontSize: 18,
-    color: "#555",
+    fontSize: 20,
+    color: "#ccc",
     marginBottom: 10,
     textAlign: "center",
   },
+
   description: {
     fontSize: 16,
-    color: "#777",
+    color: "#aaa",
     textAlign: "center",
     paddingHorizontal: 10,
     marginBottom: 20,
   },
+
   dotsContainer: {
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     position: "absolute",
-    bottom: 30,
+    top: 80,
+    width: "100%",
+    zIndex: 10,
   },
+
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#ccc",
-    margin: 5,
+    width: 15,
+    height: 5,
+    borderRadius: 2,
+    backgroundColor: "#555",
+    marginHorizontal: 4,
   },
+
   activeDot: {
-    backgroundColor: "#000",
-    width: 12,
-    height: 12,
+    backgroundColor: "#2563eb",
+    width: 30,
+    height: 5,
+    borderRadius: 2,
+  },
+
+  buttonContainer: {
+    position: "absolute",
+    bottom: 40,
+    width: "100%",
+    paddingHorizontal: 24,
+  },
+
+  primaryButton: {
+    backgroundColor: "#2563eb",
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: "center",
+    marginBottom: 12,
+  },
+
+  primaryButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  secondaryButton: {
+    backgroundColor: "transparent",
+    paddingVertical: 14,
+    borderRadius: 10,
+    borderColor: "#ccc",
+    alignItems: "center",
+  },
+
+  secondaryButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
