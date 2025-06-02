@@ -2,7 +2,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import {
-  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,15 +19,20 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={styles.outerContainer}>
-      <StatusBar barStyle="light-content" />
+    <SafeAreaProvider style={{ backgroundColor: "#000000", flex: 1 }}>
+      <StatusBar barStyle="light-content" backgroundColor="#1e3a8a" />
       <LinearGradient
         colors={["#1e3a8a", "#000000"]}
-        style={styles.container}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
+        style={[StyleSheet.absoluteFillObject, { zIndex: -1 }]}
+      />
+      <SafeAreaView
+        style={[styles.safeArea, { flex: 1 }]}
+        edges={["top", "right", "left"]}
       >
-        <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={[styles.container, { flex: 1 }]}
+        >
           {/* Logo */}
           <View style={styles.logo}>
             <FontAwesome name="shield" size={60} color="#93c5fd" />
@@ -125,30 +132,26 @@ const Login = () => {
               <Text style={styles.link}>Privacy Policy</Text>
             </Text>
           </View>
-        </SafeAreaView>
-      </LinearGradient>
-    </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
 export default Login;
 
 const styles = StyleSheet.create({
-  outerContainer: {
+  root: {
     flex: 1,
-    backgroundColor: "#000000", // Match the end color of gradient
+    backgroundColor: "#000000", // Fallback background color matching gradient end
   },
   container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
+    justifyContent: "center",
+    paddingHorizontal: 24,
   },
   safeArea: {
     flex: 1,
-    paddingHorizontal: 24,
-    justifyContent: "center",
-    backgroundColor: "transparent",
-    width: "100%",
   },
   logo: {
     alignItems: "center",
