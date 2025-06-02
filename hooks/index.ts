@@ -1,0 +1,1 @@
+export { useFetchLocation } from "./useFetchLocation";

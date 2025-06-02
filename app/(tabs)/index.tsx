@@ -4,29 +4,15 @@ import { Avatar, Surface, Text, ActivityIndicator, Divider, useTheme } from "rea
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
-
+import { useFetchLocation } from "@/hooks";
 
 const HomeScreen = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [locationPermission, setLocationPermission] = useState<boolean | null>(null);
   const { colors } = useTheme();
 
-  useEffect(() => {
-    const getCurrentLocation = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setLocationPermission(false);
-        return;
-      }
-
-      newLocation = await Location.getCurrentPositionAsync({});
-      setLocation(newLocation);
-      setLocationPermission(true);
-    }
-
-    getCurrentLocation();
-  }, [])
-
+  useFetchLocation({setLocation, setLocationPermission});
+  
   // TODO: Add an auth check and guard routes
   if (locationPermission === false) {
     return (
