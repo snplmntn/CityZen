@@ -5,7 +5,7 @@ const HomeScreen = () => {
   const { colors } = useTheme();
   return (
     <Surface style={styles.rootContainer} elevation={0}>
-      <Text variant="displayLarge" style={{color: colors.primary}}>Explore</Text>
+      <Text variant="displayLarge" style={{color: colors.primary}}>Hello</Text>
     </Surface>
   );
 }
