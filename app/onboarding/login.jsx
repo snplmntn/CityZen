@@ -2,8 +2,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -11,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,19 +18,39 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <SafeAreaProvider style={{ backgroundColor: "#000000", flex: 1 }}>
-      <StatusBar barStyle="light-content" backgroundColor="#1e3a8a" />
-      <LinearGradient
-        colors={["#1e3a8a", "#000000"]}
-        style={[StyleSheet.absoluteFillObject, { zIndex: -1 }]}
-      />
-      <SafeAreaView
-        style={[styles.safeArea, { flex: 1 }]}
-        edges={["top", "right", "left"]}
+    <>
+      <StatusBar barStyle="light-content" />
+      <View
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "#000000",
+        }}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={[styles.container, { flex: 1 }]}
+        <LinearGradient
+          colors={["#1e3a8a", "#000000"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          }}
+        />
+      </View>
+
+      <SafeAreaView style={{ flex: 1 }} edges={["top", "right", "left"]}>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: "center",
+            paddingHorizontal: 24,
+            paddingBottom: 40,
+          }}
         >
           {/* Logo */}
           <View style={styles.logo}>
@@ -132,9 +151,9 @@ const Login = () => {
               <Text style={styles.link}>Privacy Policy</Text>
             </Text>
           </View>
-        </KeyboardAvoidingView>
+        </ScrollView>
       </SafeAreaView>
-    </SafeAreaProvider>
+    </>
   );
 };
 
@@ -149,9 +168,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 24,
-  },
-  safeArea: {
-    flex: 1,
   },
   logo: {
     alignItems: "center",
