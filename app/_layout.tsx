@@ -38,6 +38,10 @@ export default function RootLayout() {
             name="onboarding/Onboarding"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="onboarding/login"
+            options={{ headerShown: false }}
+          />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
       </PaperProvider>

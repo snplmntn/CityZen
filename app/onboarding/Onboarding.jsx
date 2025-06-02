@@ -18,7 +18,7 @@ const { width } = Dimensions.get("window");
 const onboardingScreens = [
   {
     id: "1",
-    title: "Welcome to CityZen",
+    title: "Welcome CityZen",
     subtitle: "Your community safety companion",
     description:
       "Join thousands of citizens making their neighborhoods safer through real-time incident reporting and alerts.",
@@ -129,7 +129,7 @@ const Onboarding = () => {
 
         <TouchableOpacity
           style={styles.secondaryButton}
-          onPress={() => router.replace("/login")}
+          onPress={() => router.replace("/onboarding/login")}
         >
           <Text style={styles.secondaryButtonText}>Log in</Text>
         </TouchableOpacity>
