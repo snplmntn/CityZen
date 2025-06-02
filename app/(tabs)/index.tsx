@@ -5,13 +5,29 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
 import { useFetchLocation } from "@/hooks";
+import ActivityFeedPostCard from "@/components/ActivityFeedPostCard";
+
+// Sample posts
+const posts = [
+  {
+    coordinates: {
+      latitude: 14.695071430735512,
+      longitude: 121.11781440740512
+    },
+    reporter: "CitiZen 1",
+    incidentType: "fire",
+    description: "A fire broke out at [address] because [reason]. [More details]",
+    // Does JS output ISO8601 by default?
+    timestamp: 1748870977000
+  }
+];
 
 const HomeScreen = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [locationPermission, setLocationPermission] = useState<boolean | null>(null);
   const { colors } = useTheme();
 
-  useFetchLocation({setLocation, setLocationPermission});
+  useFetchLocation({ setLocation, setLocationPermission });
   
   // TODO: Add an auth check and guard routes
   if (locationPermission === false) {
@@ -69,98 +85,25 @@ const HomeScreen = () => {
           Activity Feed
         </Text>
         <Divider style={{ margin: 16 }}/>
-        <Post />
+        {posts.map((post, index) => {
+          return (
+            <ActivityFeedPostCard
+              key={index}
+              userLocation={location}
+              incidentCoordinates={post.coordinates}
+              reporter={post.reporter}
+              incidentType={post.incidentType}
+              description={post.description}
+              timestamp={post.timestamp}
+            />
+          );
+        })}
       </Surface>
       <Text variant="displayLarge" style={{color: colors.primary}}></Text>
     </Surface>
   );
 }
 
-// TODO: refactor into a separate file and make fields dynamic
-const Post = () => {
-  const { colors } = useTheme();
-  const mapRef = useRef(null);
-  return (
-    <Surface style={{ padding: 8, width: "100%" }}>
-      <View style={styles.postHeader}>
-        <View style={styles.userInfo}>
-          <FontAwesome5 name="user-circle" size={32} color={colors.primary} />
-          <View style={{ marginLeft: 8 }}>
-            <Text>CitiZen 1</Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <FontAwesome5 name="user-check" size={8} color={colors.primary} />
-              <Text style={{ fontSize: 8, marginLeft: 2 }}>Verified User</Text>
-            </View>
-          </View>
-        </View>
-        <View style={{ position: "absolute", right: 0 }}>
-          <View style={{ flexDirection: "row", gap: 8, justifyContent: "center" }}>
-            { /* TODO: Fix styling (Current style is prone to breaking) */}
-            <FontAwesome5 name="times" size={16} color="white" />
-            <FontAwesome5 name="check" size={16} color="white" />
-          </View>
-          <Text style={{ fontSize: 12 }}>Is this true?</Text>
-        </View>
-      </View>
-      <View>
-        <View style={styles.postMapWrapper}>
-          <MapView
-            mapRef={mapRef}
-            style={styles.map}
-            showsMyLocationButton={false}
-            scrollEnabled={false}
-            camera={{
-              center: {
-                latitude: 37.78825,
-                longitude: -122.4324,
-              },
-              zoom: 15,
-              pitch: 0,
-              heading: 0
-            }}
-          >
-            <Marker 
-              coordinate={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-              }}
-            />
-          </MapView>
-        </View>
-        <View 
-          style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <FontAwesome5 name="location-arrow" size={16} color={colors.primary} />
-            <Text style={{ marginLeft: 4 }}>
-              1.2km Away
-            </Text>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <FontAwesome5 name="fire" size={16} color={colors.primary} />
-            <Text style={{ marginLeft: 4 }}>
-              Fire
-            </Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <FontAwesome5 name="map-marker" size={16} color={colors.primary} />
-          <Text style={{ marginLeft: 4 }}>
-            #123 Main St, Sta Mesa, Manila
-          </Text>
-        </View>
-        <Text style={{ marginTop: 8 }}>
-          A fire broke out at [address] because [reason]. [More details]
-        </Text>
-        <Text style={{ marginTop: 8, color: "gray", fontSize: 12}}>
-          Reported 15 minutes ago
-        </Text>
-      </View>
-    </Surface>
-  );
-}
-
-// TODO: 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -191,24 +134,6 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 16
   },
-  userInfo: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  postHeader: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-    alignItems: "center"
-  },
-  postMapWrapper: {
-    width: "100%",
-    height: 128,
-    borderRadius: 18,
-    overflow: "hidden"
-  },
-})
+  })
 
 export default HomeScreen;
