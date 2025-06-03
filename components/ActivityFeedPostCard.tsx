@@ -1,27 +1,27 @@
-import { View, StyleSheet } from "react-native";
-import { Surface, Text, useTheme } from "react-native-paper";
+import { useFetchAddress } from "@/hooks";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import haversine from "haversine";
-import { useFetchAddress } from "@/hooks";
+import { StyleSheet, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { Surface, Text, useTheme } from "react-native-paper";
 
 type Props = {
-  userLocation: Location.LocationObject,
+  userLocation: Location.LocationObject;
   incidentCoordinates: {
-    latitude: number,
-    longitude: number
-  },
-  reporter: string,
-  incidentType: "fire" | "car-crash", // Add more types
-  description: string,
-  timestamp: string
-}
+    latitude: number;
+    longitude: number;
+  };
+  reporter: string;
+  incidentType: "fire" | "car-crash"; // Add more types
+  description: string;
+  timestamp: string;
+};
 
 const incidentTypeMappings = {
-  "fire": {icon: "fire", text: "Fire"},
-  "car-crash": {icon: "car-crash", text: "Car Accident"}
-}
+  fire: { icon: "fire", text: "Fire" },
+  "car-crash": { icon: "car-crash", text: "Car Accident" },
+};
 
 const ActivityFeedPostCard = ({
   userLocation,
@@ -29,12 +29,18 @@ const ActivityFeedPostCard = ({
   reporter,
   incidentType,
   description,
-  timestamp
+  timestamp,
 }: Props) => {
   const { colors } = useTheme();
-  const address = useFetchAddress(incidentCoordinates.latitude, incidentCoordinates.longitude);
+  const address = useFetchAddress(
+    incidentCoordinates.latitude,
+    incidentCoordinates.longitude
+  );
   return (
-    <Surface style={{ padding: 8, width: "100%", backgroundColor: "#222" }} elevation={0}>
+    <Surface
+      style={{ padding: 8, width: "100%", backgroundColor: "#1d1c21" }}
+      elevation={0}
+    >
       <View style={styles.postHeader}>
         <View style={styles.userInfo}>
           <FontAwesome5 name="user-circle" size={32} color={colors.primary} />
@@ -47,7 +53,9 @@ const ActivityFeedPostCard = ({
           </View>
         </View>
         <View style={{ position: "absolute", right: 0 }}>
-          <View style={{ flexDirection: "row", gap: 8, justifyContent: "center" }}>
+          <View
+            style={{ flexDirection: "row", gap: 8, justifyContent: "center" }}
+          >
             {/* 
               TODO: Refactor styles
               TODO: Fix styling (Current style is prone to breaking) 
@@ -72,10 +80,10 @@ const ActivityFeedPostCard = ({
               },
               zoom: 18,
               pitch: 0,
-              heading: 0
+              heading: 0,
             }}
           >
-            <Marker 
+            <Marker
               coordinate={{
                 latitude: incidentCoordinates.latitude,
                 longitude: incidentCoordinates.longitude,
@@ -83,27 +91,37 @@ const ActivityFeedPostCard = ({
             />
           </MapView>
         </View>
-        <View 
-          style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 8,
+          }}
         >
           <View style={{ flexDirection: "row" }}>
-            <FontAwesome5 name="location-arrow" size={16} color={colors.primary} />
+            <FontAwesome5
+              name="location-arrow"
+              size={16}
+              color={colors.primary}
+            />
             <Text style={{ marginLeft: 4 }}>
               {haversine(
                 {
                   latitude: userLocation.coords.latitude,
-                  longitude: userLocation.coords.longitude
+                  longitude: userLocation.coords.longitude,
                 },
                 {
                   latitude: incidentCoordinates.latitude,
-                  longitude: incidentCoordinates.longitude
+                  longitude: incidentCoordinates.longitude,
                 },
                 { unit: "km" }
-              ).toFixed(2)} km Away
+              ).toFixed(2)}{" "}
+              km Away
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
-            <FontAwesome5 
+            <FontAwesome5
               name={incidentTypeMappings[incidentType]?.icon ?? "fire"}
               size={16}
               color={colors.primary}
@@ -115,22 +133,19 @@ const ActivityFeedPostCard = ({
         </View>
         <View style={{ flexDirection: "row" }}>
           <FontAwesome5 name="map-marker" size={16} color={colors.primary} />
-          <Text style={{ marginLeft: 4 }}>
-            {address}
-          </Text>
+          <Text style={{ marginLeft: 4 }}>{address}</Text>
         </View>
-        <Text style={{ marginTop: 8 }}>
-          {description}
-        </Text>
-        <Text style={{ marginTop: 8, color: "gray", fontSize: 12}}>
-          Reported {new Date(timestamp).toLocaleString("en-US", {
-            hour12: true
+        <Text style={{ marginTop: 8 }}>{description}</Text>
+        <Text style={{ marginTop: 8, color: "gray", fontSize: 12 }}>
+          Reported{" "}
+          {new Date(timestamp).toLocaleString("en-US", {
+            hour12: true,
           })}
         </Text>
       </View>
     </Surface>
   );
-}
+};
 
 export default ActivityFeedPostCard;
 
@@ -140,21 +155,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 8,
-    alignItems: "center"
+    alignItems: "center",
   },
   userInfo: {
     width: "100%",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   postMapWrapper: {
     width: "100%",
     height: 128,
     borderRadius: 18,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   map: {
     width: "100%",
     height: "100%",
   },
-})
+});

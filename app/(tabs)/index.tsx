@@ -1,159 +1,232 @@
-import { useState, useEffect, useRef } from "react";
-import { ScrollView, View, Image, StyleSheet } from "react-native";
-import { Avatar, Surface, Text, ActivityIndicator, Divider, useTheme } from "react-native-paper";
+import ActivityFeedPostCard from "@/components/ActivityFeedPostCard";
+import { useFetchLocation } from "@/hooks";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
-import MapView, { Marker } from "react-native-maps";
-import { useFetchLocation } from "@/hooks";
-import ActivityFeedPostCard from "@/components/ActivityFeedPostCard";
+import { useState } from "react";
+import {
+  Dimensions,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
+import MapView from "react-native-maps";
+import { ActivityIndicator, Surface, Text, useTheme } from "react-native-paper";
 
-// Sample posts
+// Get screen dimensions
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+
+// Sample posts (unchanged)
 const posts = [
   {
     coordinates: {
       latitude: 14.695071430735512,
-      longitude: 121.11781440740512
+      longitude: 121.11781440740512,
     },
     reporter: "CitiZen 1",
     incidentType: "fire",
-    description: "A fire broke out at [address] because [reason]. [More details]",
-    timestamp: 1748870977000
+    description:
+      "A fire broke out at [address] because [reason]. [More details]",
+    timestamp: 1748870977000,
   },
   {
     coordinates: {
       latitude: 14.695071430733512,
-      longitude: 121.12781440770512
+      longitude: 121.12781440770512,
     },
     reporter: "CitiZen 2",
     incidentType: "fire",
-    description: "A fire broke out at [address] because [reason]. [More details]",
-    timestamp: 1748870977000
+    description:
+      "A fire broke out at [address] because [reason]. [More details]",
+    timestamp: 1748870977000,
   },
   {
     coordinates: {
       latitude: 14.625071430733512,
-      longitude: 121.12781440770512
+      longitude: 121.12781440770512,
     },
     reporter: "CitiZen 3",
     incidentType: "fire",
-    description: "A fire broke out at [address] because [reason]. [More details]",
-    timestamp: 1748870977000
-  }
+    description:
+      "A fire broke out at [address] because [reason]. [More details]",
+    timestamp: 1748870977000,
+  },
 ];
 
 const HomeScreen = () => {
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
-  const [locationPermission, setLocationPermission] = useState<boolean | null>(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
+  const [locationPermission, setLocationPermission] = useState<boolean | null>(
+    null
+  );
   const { colors } = useTheme();
 
   useFetchLocation({ setLocation, setLocationPermission });
 
-  // TODO: Add an auth check and guard routes
+  // Handle permission denied state
   if (locationPermission === false) {
     return (
-      <View style={[styles.rootContainer, {justifyContent: "center"}]}>
-        <FontAwesome5 name="exclamation-circle" size={32} color={colors.primary} />
+      <View style={[styles.rootContainer, { justifyContent: "center" }]}>
+        <FontAwesome5
+          name="exclamation-circle"
+          size={32}
+          color={colors.primary}
+        />
         <Text>Location permissions is required to run the app!</Text>
       </View>
     );
   }
 
+  // Loading state
   if (location === null) {
     return (
-      <View style={[styles.rootContainer, {justifyContent: "center"}]}>
-        <ActivityIndicator size="large" />
+      <View style={[styles.rootContainer, { justifyContent: "center" }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
-  // TODO: Change tags into scrollable view
   return (
     <Surface style={styles.rootContainer} elevation={0}>
-      <View style={styles.heroWrapper}>
-        <View>
-          <MapView
-            style={styles.map}
-            showsUserLocation={true}
-            followsUserLocation={true}
-            showsMyLocationButton={false}
-            scrollEnabled={false}
-            camera={{
-              center: {
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-              },
-              zoom: 17,
-              pitch: 0,
-              heading: 0
-            }}
-          >
-          </MapView>
+      <StatusBar backgroundColor="#1d1c21" barStyle="light-content" />
+
+      {/* Full-width map view */}
+      <MapView
+        style={styles.fullWidthMap}
+        showsUserLocation={true}
+        followsUserLocation={true}
+        showsMyLocationButton={false}
+        scrollEnabled={false}
+        camera={{
+          center: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          },
+          zoom: 17,
+          pitch: 0,
+          heading: 0,
+        }}
+      />
+
+      {/* Map overlay with warning - improved styling for perfect centering */}
+      <View style={styles.mapOverlay}>
+        <View style={styles.overlayContent}>
+          <FontAwesome5
+            name="exclamation-triangle"
+            size={14}
+            color={colors.primary}
+            style={styles.overlayIcon}
+          />
+          <Text style={styles.overlayText} numberOfLines={1}>
+            1.2km Nearby Incident
+          </Text>
         </View>
-        <View style={[styles.mapOverlay, {backgroundColor: "#222"}]}>
-          <Text style={{ fontWeight: "bold" }}>
-            <FontAwesome5 name="exclamation-triangle" size={12} color={colors.primary}/> 1.2km Nearby Incident
+      </View>
+
+      {/* Activity Feed Card - refined styling */}
+      <Surface style={styles.card} elevation={2}>
+        <View style={styles.feedHeader}>
+          <Text variant="headlineSmall" style={styles.feedTitle}>
+            Activity Feed
           </Text>
         </View>
 
-      </View>
-      <Surface 
-        style={[styles.card, {backgroundColor: '#222' }]}
-        elevation={5}
-      >
-        <Text variant="displaySmall" style={{ fontWeight: "bold" }}>
-          Activity Feed
-        </Text>
-        <Divider style={{ margin: 16 }}/>
-        <ScrollView style={{ marginBottom: 275 }}>
-          {posts.map((post, index) => {
-            return (
-              <ActivityFeedPostCard
-                key={index}
-                userLocation={location}
-                incidentCoordinates={post.coordinates}
-                reporter={post.reporter}
-                incidentType={post.incidentType}
-                description={post.description}
-                timestamp={post.timestamp}
-              />
-            );
-          })}
+        <ScrollView
+          style={styles.feedScrollView}
+          contentContainerStyle={styles.feedContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {posts.map((post, index) => (
+            <ActivityFeedPostCard
+              key={index}
+              userLocation={location}
+              incidentCoordinates={post.coordinates}
+              reporter={post.reporter}
+              incidentType={post.incidentType}
+              description={post.description}
+              timestamp={post.timestamp}
+            />
+          ))}
+
+          {/* Empty view to add space at the bottom */}
+          <View style={styles.bottomSpacer} />
         </ScrollView>
       </Surface>
     </Surface>
   );
-}
+};
 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     alignItems: "center",
-    padding: 18,
-    paddingTop: 32
+    padding: 0,
+    paddingTop: 0,
+    backgroundColor: "#1d1c21",
   },
-  heroWrapper: {
-    width: "100%",
+  fullWidthMap: {
+    width: screenWidth,
     height: 300,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    overflow: "hidden",
-  },
-  map: {
-    width: "100%",
-    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
   },
   mapOverlay: {
-    width: "100%",
+    width: screenWidth,
     position: "absolute",
-    bottom: 0,
-    padding: 8,
-    alignItems: "center"
+    top: 280,
+    height: 50,
+    justifyContent: "center", // Centers content vertically
+    alignItems: "center", // Centers content horizontally
+    backgroundColor: "#1d1c21",
+  },
+  overlayContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 16,
+  },
+  overlayIcon: {
+    marginRight: 8, // Space between icon and text
+  },
+  overlayText: {
+    fontWeight: "bold",
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+    includeFontPadding: false, // Removes extra padding in text
   },
   card: {
     width: "100%",
     height: "100%",
-    padding: 16
+    backgroundColor: "#1d1c21",
+    marginTop: 320,
+    borderTopWidth: 0.5,
+    borderTopColor: "rgba(255,255,255,0.15)",
+    borderWidth: 0,
+    overflow: "hidden",
   },
-})
+  feedHeader: {
+    padding: 20,
+  },
+  feedTitle: {
+    fontWeight: "bold",
+    color: "#fff",
+    letterSpacing: 0.5,
+  },
+  feedScrollView: {
+    flex: 1,
+  },
+  feedContent: {
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 20, // Some padding at the bottom
+  },
+  bottomSpacer: {
+    height: 320, // Additional space at the bottom
+  },
+});
 
 export default HomeScreen;
