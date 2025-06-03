@@ -26,6 +26,7 @@ import LegalResourceCard from "../../components/explore/LegalResourceCard";
 import PollCard from "../../components/explore/PollCard";
 import SafetyTipCard from "../../components/explore/SafetyTipCard";
 import VolunteerCard from "../../components/explore/VolunteerCard";
+import SidebarMenu from "../../components/SidebarMenu";
 
 const HomeScreen = () => {
   const { colors } = useTheme();
@@ -35,6 +36,7 @@ const HomeScreen = () => {
   const [activeTab, setActiveTab] = useState<"weekly" | "monthly" | "yearly">(
     "weekly"
   );
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const toggleContact = (category: string) => {
     setExpandedContact(expandedContact === category ? null : category);
@@ -67,7 +69,11 @@ const HomeScreen = () => {
           </Text>
           <View style={styles.headerIcons}>
             <IconButton icon="bell" size={24} onPress={() => {}} />
-            <IconButton icon="menu" size={32} onPress={() => {}} />
+            <IconButton
+              icon="menu"
+              size={32}
+              onPress={() => setSidebarVisible(true)}
+            />
           </View>
         </View>
 
@@ -265,6 +271,13 @@ const HomeScreen = () => {
 
       {/* AI Chatbot Panel */}
       {chatOpen && <ChatInterface onClose={toggleChat} />}
+
+      {/* Sidebar Menu */}
+      <SidebarMenu
+        visible={sidebarVisible}
+        onClose={() => setSidebarVisible(false)}
+        userName="John Doe"
+      />
     </Surface>
   );
 };
