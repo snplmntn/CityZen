@@ -201,14 +201,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "#1d1c21",
-    marginTop: 320,
-    borderTopWidth: 0.5,
-    borderTopColor: "rgba(255,255,255,0.15)",
-    borderWidth: 0,
+    marginTop: 310,
     overflow: "hidden",
   },
   feedHeader: {
-    padding: 20,
+    padding: 10,
   },
   feedTitle: {
     fontWeight: "bold",
@@ -219,7 +216,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feedContent: {
-    paddingHorizontal: 16,
     paddingTop: 10,
     paddingBottom: 20, // Some padding at the bottom
   },

@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   postMapWrapper: {
     width: "100%",
     height: 128,
-    borderRadius: 18,
+    borderRadius: 15,
     overflow: "hidden",
   },
   map: {

@@ -27,7 +27,8 @@ const ChatInterface = ({ onClose }: ChatInterfaceProps) => {
       <View style={styles.messagesContainer}>
         <View style={styles.messageAI}>
           <Text style={styles.messageText}>
-            Hello! I'm your CityZen AI assistant. How can I help you today?
+            Hello CityZen! I'm Zen, your dedicated AI assistant. How can I help
+            you today?
           </Text>
         </View>
       </View>
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     marginLeft: 12,
     fontWeight: "600",
+    color: "black",
   },
   closeButton: {
     padding: 4,

@@ -22,7 +22,7 @@ const onboardingScreens = [
     subtitle: "Your community safety companion",
     description:
       "Join thousands of citizens making their neighborhoods safer through real-time incident reporting and alerts.",
-    image: require("../../assets/images/safety.jpg"),
+    image: require("../../assets/images/zen.png"),
   },
   {
     id: "2",
@@ -30,7 +30,7 @@ const onboardingScreens = [
     subtitle: "Stay informed, stay safe",
     description:
       "Receive instant notifications about incidents in your area. From traffic accidents to emergencies, we keep you in the loop.",
-    image: require("../../assets/images/safety.jpg"),
+    image: require("../../assets/images/zen2.png"),
   },
   {
     id: "3",
@@ -38,7 +38,7 @@ const onboardingScreens = [
     subtitle: "Make a difference",
     description:
       "Easily report incidents with our AI-powered system. Take photos or videos, and our technology will help categorize and verify the information.",
-    image: require("../../assets/images/safety.jpg"),
+    image: require("../../assets/images/zen3.png"),
   },
   {
     id: "4",
@@ -46,7 +46,7 @@ const onboardingScreens = [
     subtitle: "Crowdsourced accuracy",
     description:
       "Our unique verification system allows community members to confirm or dispute reported incidents, ensuring information accuracy.",
-    image: require("../../assets/images/safety.jpg"),
+    image: require("../../assets/images/zen4.png"),
   },
   {
     id: 5,
@@ -54,15 +54,7 @@ const onboardingScreens = [
     subtitle: "Visualize safety information",
     description:
       "View incident hotspots, safe routes, and emergency services on our interactive map. Plan your movements with confidence.",
-    image: require("../../assets/images/safety.jpg"),
-  },
-  {
-    id: 6,
-    title: "Privacy & Security",
-    subtitle: "Your data is protected",
-    description:
-      "We prioritize your privacy and security. All reports can be anonymous, and your personal information is never shared without consent.",
-    image: require("../../assets/images/safety.jpg"),
+    image: require("../../assets/images/zen5.png"),
   },
 ];
 

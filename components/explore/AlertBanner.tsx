@@ -25,6 +25,7 @@ const AlertBanner = () => {
 
 const styles = StyleSheet.create({
   alertBanner: {
+    marginTop: 20,
     backgroundColor: "#FEF2F2",
     marginHorizontal: 16,
     marginBottom: 16,

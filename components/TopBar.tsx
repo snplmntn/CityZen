@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { IconButton, Text, useTheme } from "react-native-paper";
 
 interface TopBarProps {
@@ -46,14 +46,37 @@ const TopBar = ({
   );
 };
 
+const App = () => {
+  return (
+    <View style={{ flex: 1 }}>
+      <TopBar
+        title="Your Title"
+        onMenuPress={() => {
+          /* handler */
+        }}
+      />
+      <ScrollView contentContainerStyle={{ paddingTop: 64 }}>
+        {/* Your scrollable content here */}
+      </ScrollView>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    position: "absolute",
+    top: 0, // Add this: stick to the top
+    left: 0, // Add this: start from left edge
+    right: 0, // Add this: extend to right edge
+    width: "100%", // Add this: ensure full width
+    zIndex: 100, // Add this: ensure it shows above other elements
     paddingHorizontal: 16,
     paddingVertical: 12,
-    height: 64, // Fixed height for consistency
+    height: 64,
+    backgroundColor: "#121212",
   },
   headerTitle: {
     fontWeight: "bold",
@@ -61,12 +84,8 @@ const styles = StyleSheet.create({
   headerIcons: {
     flexDirection: "row",
     alignItems: "center", // Ensure vertical alignment
-    height: 48, // Fixed height container for icons
   },
-  icon: {
-    margin: 0, // Remove default margins
-    marginLeft: 8, // Add consistent spacing between icons
-  },
+  height: 48, // Fixed height container for icons
 });
 
-export default TopBar;
+export default App;

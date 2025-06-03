@@ -11,13 +11,7 @@ import {
   useTheme,
 } from "react-native-paper";
 
-// Import data
-import exploreData from "../../data/exploreData.json";
-
-// Import styles
-import { exploreStyles as styles } from "../../styles/exploreStyles";
-
-// Import components
+// Import data and components
 import AlertBanner from "../../components/explore/AlertBanner";
 import CampaignCard from "../../components/explore/CampaignCard";
 import ChatInterface from "../../components/explore/ChatInterface";
@@ -26,8 +20,8 @@ import LegalResourceCard from "../../components/explore/LegalResourceCard";
 import PollCard from "../../components/explore/PollCard";
 import SafetyTipCard from "../../components/explore/SafetyTipCard";
 import VolunteerCard from "../../components/explore/VolunteerCard";
-import SidebarMenu from "../../components/SidebarMenu";
-import TopBar from "../../components/TopBar";
+import exploreData from "../../data/exploreData.json";
+import { exploreStyles as styles } from "../../styles/exploreStyles";
 
 const HomeScreen = () => {
   const { colors } = useTheme();
@@ -37,7 +31,6 @@ const HomeScreen = () => {
   const [activeTab, setActiveTab] = useState<"weekly" | "monthly" | "yearly">(
     "weekly"
   );
-  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const toggleContact = (category: string) => {
     setExpandedContact(expandedContact === category ? null : category);
@@ -51,7 +44,6 @@ const HomeScreen = () => {
     setChatOpen(!chatOpen);
   };
 
-  // All the data dictionaries are now imported from the JSON file
   const {
     safetyTips,
     emergencyContacts,
@@ -62,10 +54,10 @@ const HomeScreen = () => {
 
   return (
     <Surface style={styles.rootContainer} elevation={0}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Use the TopBar component instead of the inline header */}
-        <TopBar title="Explore" onMenuPress={() => setSidebarVisible(true)} />
-
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         {/* Alert Banner */}
         <AlertBanner />
 
@@ -89,7 +81,6 @@ const HomeScreen = () => {
                 key={index}
                 {...{
                   ...tip,
-                  // Type assertion for the icon property
                   icon: tip.icon as ComponentProps<
                     typeof MaterialCommunityIcons
                   >["name"],
@@ -110,7 +101,6 @@ const HomeScreen = () => {
               key={contact.category}
               {...{
                 ...contact,
-                // Type assertion for the icon property
                 icon: contact.icon as ComponentProps<
                   typeof MaterialCommunityIcons
                 >["name"],
@@ -260,13 +250,6 @@ const HomeScreen = () => {
 
       {/* AI Chatbot Panel */}
       {chatOpen && <ChatInterface onClose={toggleChat} />}
-
-      {/* Sidebar Menu */}
-      <SidebarMenu
-        visible={sidebarVisible}
-        onClose={() => setSidebarVisible(false)}
-        userName="wakeywakey"
-      />
     </Surface>
   );
 };
