@@ -9,11 +9,22 @@ import MapActionBar from "@/components/MapActionBar";
 import ReportDetailsModal from "@/components/ReportDetailsModal";
 import ReportFormModal from "@/components/ReportFormModal";
 
+// TODO: Refactor (DRY)
+const incidentTypes = [
+  {slug: "fire", icon: "fire", text: "Fire"},
+  {slug: "car-crash", icon: "car-crash", text: "Car Crash"},
+  {slug: "crime", icon: "bomb", text: "Crime"},
+  {slug: "mechanical-failure", icon: "cogs", text: "Mechanical Failure"},
+  {slug: "collapsed-structure", icon: "building", text: "Collapsed Structure"},
+];
+
+
 const MapScreen = () => {
   const { colors } = useTheme();
   const [showReportDetails, setShowReportDetails] = useState<Record<number, boolean>>({
     1: false, 2: false, 3: false
   });
+  const [posts, setPosts] = useState([]);
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
   const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
@@ -40,41 +51,6 @@ const MapScreen = () => {
   }
 
   // TODO: Create a hook that fetches nearby reports
-  const posts = [
-    {
-      id: 1,
-      coordinates: {
-        latitude: location.coords.latitude + 0.001,
-        longitude: location.coords.longitude + 0.001
-      },
-      reporter: "CitiZen 1",
-      incidentType: "fire",
-      description: "A fire broke out at [address] because [reason]. [More details]",
-      timestamp: 1748870977000
-    },
-    {
-      id: 2,
-      coordinates: {
-        latitude: location.coords.latitude + 0.002,
-        longitude: location.coords.longitude + 0.002
-      },
-      reporter: "CitiZen 2",
-      incidentType: "car-crash",
-      description: "A fire broke out at [address] because [reason]. [More details]",
-      timestamp: 1748870977000
-    },
-    {
-      id: 3,
-      coordinates: {
-        latitude: location.coords.latitude + 0.003,
-        longitude: location.coords.longitude + 0.001
-      },
-      reporter: "CitiZen 3",
-      incidentType: "fire",
-      description: "A fire broke out at [address] because [reason]. [More details]",
-      timestamp: 1748870977000
-    }
-  ];
 
   return (
     <Surface elevation={0}>
@@ -96,7 +72,7 @@ const MapScreen = () => {
       >
         {// Render reports within 15km(?)
           // Render markers
-          posts.map((post) => {
+          posts?.map((post) => {
             return (
               <Marker 
                 key={`marker-${post.id}`}
@@ -110,7 +86,7 @@ const MapScreen = () => {
                 }}
               >
                 <FontAwesome5 
-                  name={post.incidentType}
+                  name={incidentTypes.find((type) => type.slug === post.incidentType).icon}
                   size={32}
                   color={colors.primary}
                   style={{ marginBottom: 32 }}
@@ -127,13 +103,15 @@ const MapScreen = () => {
         setShowHelpModal={setShowHelpModal}
       />
       <ReportFormModal
+        posts={posts}
+        setPosts={setPosts}
         location={location}
         visible={showReportModal}
         setVisible={setShowReportModal}
       />
         {
           // Render modals for the reports
-          posts.map((post) => {
+          posts?.map((post) => {
             return (
               <ReportDetailsModal 
                 key={`report-${post.id}`}

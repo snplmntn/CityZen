@@ -161,9 +161,8 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     alignItems: "center",
-    padding: 0,
-    paddingTop: 0,
-    backgroundColor: "#1d1c21",
+    padding: 18,
+    paddingTop: 32,
   },
   fullWidthMap: {
     width: screenWidth,
