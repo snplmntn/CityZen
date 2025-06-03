@@ -37,8 +37,8 @@ const HomeScreen = () => {
         {/* Header - Keeping the existing header */}
         <View style={styles.header}>
           <View style={styles.headerIcons}>
-            <IconButton icon="magnify" size={24} onPress={() => {}} />
             <IconButton icon="bell" size={24} onPress={() => {}} />
+            <IconButton icon="menu" size={26} onPress={() => {}} />
           </View>
         </View>
 
