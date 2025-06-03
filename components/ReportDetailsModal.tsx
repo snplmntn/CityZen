@@ -45,7 +45,7 @@ const ReportDetailsModal = ({
             userLocation={userLocation}
             incidentCoordinates={incidentCoordinates}
             reporter={reporter}
-            incidedntType={incidentType}
+            incidentType={incidentType}
             description={description}
             timestamp={timestamp}
           />

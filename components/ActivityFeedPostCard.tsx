@@ -13,7 +13,7 @@ type Props = {
     longitude: number
   },
   reporter: string,
-  incidentType: "fire", // Add more types
+  incidentType: "fire" | "car-crash", // Add more types
   description: string,
   timestamp: string
 }
@@ -33,7 +33,7 @@ const ActivityFeedPostCard = ({
 }: Props) => {
   const { colors } = useTheme();
   const address = useFetchAddress(incidentCoordinates.latitude, incidentCoordinates.longitude);
-
+  console.log(incidentType)
   return (
     <Surface style={{ padding: 8, width: "100%", backgroundColor: "#222" }} elevation={0}>
       <View style={styles.postHeader}>
