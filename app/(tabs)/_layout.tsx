@@ -12,7 +12,7 @@ const NavLayout = () => {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
-        headerShown: false,
+        headerShown: true,
         headerTitleStyle: { fontWeight: "bold" },
         headerRight: () => {
           return (
@@ -34,7 +34,7 @@ const NavLayout = () => {
                 />
               </TouchableRipple>
               <TouchableRipple
-                onPress={() => console.log("toggle sidebar")}
+                onPress={() => console.log("sidebar")}
                 rippleColor="rgba(255, 255, 255, .20)"
               >
                 <FontAwesome5
