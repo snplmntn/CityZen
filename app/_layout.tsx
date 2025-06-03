@@ -42,7 +42,7 @@ export default function RootLayout() {
             name="onboarding/login"
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
         </Stack>
       </PaperProvider>
     </NavThemeProvider>
