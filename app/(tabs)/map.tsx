@@ -9,6 +9,16 @@ import MapActionBar from "@/components/MapActionBar";
 import ReportDetailsModal from "@/components/ReportDetailsModal";
 import ReportFormModal from "@/components/ReportFormModal";
 
+// TODO: Refactor (DRY)
+const incidentTypes = [
+  {slug: "fire", icon: "fire", text: "Fire"},
+  {slug: "car-crash", icon: "car-crash", text: "Car Crash"},
+  {slug: "crime", icon: "bomb", text: "Crime"},
+  {slug: "mechanical-failure", icon: "cogs", text: "Mechanical Failure"},
+  {slug: "collapsed-structure", icon: "building", text: "Collapsed Structure"},
+];
+
+
 const MapScreen = () => {
   const { colors } = useTheme();
   const [showReportDetails, setShowReportDetails] = useState<Record<number, boolean>>({
@@ -76,7 +86,7 @@ const MapScreen = () => {
                 }}
               >
                 <FontAwesome5 
-                  name={post.incidentType}
+                  name={incidentTypes.find((type) => type.slug === post.incidentType).icon}
                   size={32}
                   color={colors.primary}
                   style={{ marginBottom: 32 }}
