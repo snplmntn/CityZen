@@ -82,7 +82,7 @@ const Onboarding = () => {
     >
       <FlatList
         data={onboardingScreens}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}

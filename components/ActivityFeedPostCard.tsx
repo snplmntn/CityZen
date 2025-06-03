@@ -13,7 +13,12 @@ type Props = {
     longitude: number;
   };
   reporter: string;
-  incidentType: "fire" | "car-crash"; // Add more types
+  incidentType:
+    | "fire"
+    | "car-crash"
+    | "crime"
+    | "mechanical-failure"
+    | "collapsed-structure";
   description: string;
   timestamp: string;
 };
@@ -131,13 +136,15 @@ const ActivityFeedPostCard = ({
           <View style={{ flexDirection: "row" }}>
             <FontAwesome5
               name={
-                incidentTypes.find((type) => type.slug === incidentType).icon
+                incidentTypes.find((type) => type.slug === incidentType)
+                  ?.icon || "exclamation-circle"
               }
               size={16}
               color={colors.primary}
             />
             <Text style={{ marginLeft: 4 }}>
-              {incidentTypes.find((type) => type.slug === incidentType).text}
+              {incidentTypes.find((type) => type.slug === incidentType)?.text ||
+                "Unknown Incident"}
             </Text>
           </View>
         </View>

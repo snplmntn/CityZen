@@ -2,7 +2,7 @@ import ActivityFeedPostCard from "@/components/ActivityFeedPostCard";
 import { useFetchLocation } from "@/hooks";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dimensions,
   ScrollView,
@@ -16,7 +16,7 @@ import { ActivityIndicator, Surface, Text, useTheme } from "react-native-paper";
 // Get screen dimensions
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-// Sample posts (unchanged)
+// Sample posts with valid incident types
 const posts = [
   {
     coordinates: {
@@ -24,7 +24,7 @@ const posts = [
       longitude: 121.11781440740512,
     },
     reporter: "CitiZen 1",
-    incidentType: "fire",
+    incidentType: "fire" as const, // Add type assertion
     description:
       "A fire broke out at [address] because [reason]. [More details]",
     timestamp: 1748870977000,
@@ -35,9 +35,8 @@ const posts = [
       longitude: 121.12781440770512,
     },
     reporter: "CitiZen 2",
-    incidentType: "fire",
-    description:
-      "A fire broke out at [address] because [reason]. [More details]",
+    incidentType: "car-crash" as const, // Changed to a valid type
+    description: "A car crash occurred at [address]. [More details]",
     timestamp: 1748870977000,
   },
   {
@@ -46,9 +45,8 @@ const posts = [
       longitude: 121.12781440770512,
     },
     reporter: "CitiZen 3",
-    incidentType: "fire",
-    description:
-      "A fire broke out at [address] because [reason]. [More details]",
+    incidentType: "crime" as const, // Changed to a valid type
+    description: "A crime was reported at [address]. [More details]",
     timestamp: 1748870977000,
   },
 ];
@@ -57,12 +55,41 @@ const HomeScreen = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
-  const [locationPermission, setLocationPermission] = useState<boolean | null>(
-    null
-  );
+  const [locationPermission, setLocationPermission] = useState<boolean>(false);
   const { colors } = useTheme();
 
-  useFetchLocation({ setLocation, setLocationPermission });
+  useFetchLocation({
+    setLocation,
+    setLocationPermission,
+  });
+
+  // Error handling for location errors
+  useEffect(() => {
+    if (location !== null) {
+      try {
+        // Test if location data is valid
+        const { latitude, longitude } = location.coords;
+        if (!latitude || !longitude) {
+          throw new Error("Invalid location data");
+        }
+      } catch (error) {
+        console.error("Invalid location data:", error);
+        // Set fallback data
+        setLocation({
+          coords: {
+            latitude: 14.676, // Manila coordinates
+            longitude: 121.0437,
+            altitude: 0,
+            accuracy: 0,
+            altitudeAccuracy: 0,
+            heading: 0,
+            speed: 0,
+          },
+          timestamp: Date.now(),
+        });
+      }
+    }
+  }, [location]);
 
   // Handle permission denied state
   if (locationPermission === false) {
@@ -145,7 +172,7 @@ const HomeScreen = () => {
               reporter={post.reporter}
               incidentType={post.incidentType}
               description={post.description}
-              timestamp={post.timestamp}
+              timestamp={post.timestamp.toString()} // Convert number to string
             />
           ))}
 
