@@ -33,7 +33,6 @@ const ActivityFeedPostCard = ({
 }: Props) => {
   const { colors } = useTheme();
   const address = useFetchAddress(incidentCoordinates.latitude, incidentCoordinates.longitude);
-  console.log(incidentType)
   return (
     <Surface style={{ padding: 8, width: "100%", backgroundColor: "#222" }} elevation={0}>
       <View style={styles.postHeader}>
@@ -71,7 +70,7 @@ const ActivityFeedPostCard = ({
                 latitude: incidentCoordinates.latitude,
                 longitude: incidentCoordinates.longitude,
               },
-              zoom: 15,
+              zoom: 18,
               pitch: 0,
               heading: 0
             }}
