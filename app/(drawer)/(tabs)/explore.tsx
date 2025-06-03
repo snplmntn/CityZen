@@ -12,20 +12,20 @@ import {
 } from "react-native-paper";
 
 // Import data
-import exploreData from "../../data/exploreData.json";
+import exploreData from "@/data/exploreData.json";
 
 // Import styles
-import { exploreStyles as styles } from "../../styles/exploreStyles";
+import { exploreStyles as styles } from "@/styles/exploreStyles";
 
 // Import components
-import AlertBanner from "../../components/explore/AlertBanner";
-import CampaignCard from "../../components/explore/CampaignCard";
-import ChatInterface from "../../components/explore/ChatInterface";
-import EmergencyContactCard from "../../components/explore/EmergencyContactCard";
-import LegalResourceCard from "../../components/explore/LegalResourceCard";
-import PollCard from "../../components/explore/PollCard";
-import SafetyTipCard from "../../components/explore/SafetyTipCard";
-import VolunteerCard from "../../components/explore/VolunteerCard";
+import AlertBanner from "@/components/explore/AlertBanner";
+import CampaignCard from "@/components/explore/CampaignCard";
+import ChatInterface from "@/components/explore/ChatInterface";
+import EmergencyContactCard from "@/components/explore/EmergencyContactCard";
+import LegalResourceCard from "@/components/explore/LegalResourceCard";
+import PollCard from "@/components/explore/PollCard";
+import SafetyTipCard from "@/components/explore/SafetyTipCard";
+import VolunteerCard from "@/components/explore/VolunteerCard";
 
 const HomeScreen = () => {
   const { colors } = useTheme();
