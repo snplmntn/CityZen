@@ -32,6 +32,9 @@ const HomeScreen = () => {
   const [expandedContact, setExpandedContact] = useState<string | null>(null);
   const [activePoll, setActivePoll] = useState<number | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"weekly" | "monthly" | "yearly">(
+    "weekly"
+  );
 
   const toggleContact = (category: string) => {
     setExpandedContact(expandedContact === category ? null : category);
@@ -179,7 +182,7 @@ const HomeScreen = () => {
                   <Button
                     mode="contained"
                     style={styles.incidentTabActive}
-                    labelStyle={styles.incidentTabLabel}
+                    labelStyle={styles.incidentTabLabelActive}
                   >
                     Weekly
                   </Button>
@@ -187,6 +190,7 @@ const HomeScreen = () => {
                     mode="outlined"
                     style={styles.incidentTab}
                     labelStyle={styles.incidentTabLabel}
+                    onPress={() => setActiveTab("monthly")}
                   >
                     Monthly
                   </Button>
@@ -194,6 +198,7 @@ const HomeScreen = () => {
                     mode="outlined"
                     style={styles.incidentTab}
                     labelStyle={styles.incidentTabLabel}
+                    onPress={() => setActiveTab("yearly")}
                   >
                     Yearly
                   </Button>
@@ -212,7 +217,7 @@ const HomeScreen = () => {
                 <Button
                   mode="contained"
                   style={styles.incidentFilterActive}
-                  labelStyle={styles.incidentFilterLabel}
+                  labelStyle={styles.incidentFilterLabelActive}
                 >
                   All
                 </Button>

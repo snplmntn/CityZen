@@ -39,7 +39,11 @@ const CampaignCard = () => {
             </Text>
           </View>
         </View>
-        <Button mode="contained" style={styles.button}>
+        <Button
+          mode="contained"
+          style={styles.button}
+          labelStyle={styles.buttonLabelActive}
+        >
           Join Campaign
         </Button>
       </Card.Content>
@@ -97,6 +101,10 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: "flex-start",
+  },
+  buttonLabelActive: {
+    alignSelf: "flex-start",
+    color: "white",
   },
 });
 

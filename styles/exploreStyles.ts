@@ -69,6 +69,9 @@ export const exploreStyles = StyleSheet.create({
     marginRight: 8,
     borderRadius: 20,
   },
+  incidentTabLabelActive: {
+    color: "white",
+  },
   incidentTabLabel: {
     fontSize: 12,
   },
@@ -101,6 +104,10 @@ export const exploreStyles = StyleSheet.create({
   },
   incidentFilterLabel: {
     fontSize: 12,
+  },
+  incidentFilterLabelActive: {
+    fontSize: 12,
+    color: "white",
   },
   volunteerGrid: {
     flexDirection: "row",
