@@ -124,7 +124,13 @@ const Login = () => {
           </View>
 
           {/* Login Button */}
-          <TouchableOpacity style={styles.loginButton}>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => {
+              // Navigate to the home screen (root)
+              router.replace("/");
+            }}
+          >
             <Text style={styles.loginButtonText}>Log in</Text>
           </TouchableOpacity>
 
