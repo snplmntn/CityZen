@@ -265,7 +265,7 @@ const HomeScreen = () => {
       <SidebarMenu
         visible={sidebarVisible}
         onClose={() => setSidebarVisible(false)}
-        userName="John Doe"
+        userName="wakeywakey"
       />
     </Surface>
   );

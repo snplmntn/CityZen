@@ -25,8 +25,20 @@ const TopBar = ({
       <View style={styles.headerIcons}>
         {rightContent || (
           <>
-            <IconButton icon="bell" size={24} onPress={onNotificationPress} />
-            <IconButton icon="menu" size={32} onPress={onMenuPress} />
+            <IconButton
+              icon="bell"
+              size={24}
+              onPress={onNotificationPress}
+              style={styles.icon}
+              iconColor={colors.primary}
+            />
+            <IconButton
+              icon="menu"
+              size={35} // Made consistent with the bell icon
+              onPress={onMenuPress}
+              style={styles.icon}
+              iconColor={colors.primary}
+            />
           </>
         )}
       </View>
@@ -39,14 +51,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    height: 64, // Fixed height for consistency
   },
   headerTitle: {
     fontWeight: "bold",
   },
   headerIcons: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    alignItems: "center", // Ensure vertical alignment
+    height: 48, // Fixed height container for icons
+  },
+  icon: {
+    margin: 0, // Remove default margins
+    marginLeft: 8, // Add consistent spacing between icons
   },
 });
 
