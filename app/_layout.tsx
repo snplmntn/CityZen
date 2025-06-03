@@ -17,7 +17,7 @@ const DarkTheme = {
   colors: {
     ...NavDarkTheme.colors,
     ...PaperDarkTheme.colors,
-    primary: "red",
+    primary: "#ff6666",
   },
 };
 
