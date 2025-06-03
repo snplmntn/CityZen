@@ -7,6 +7,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
 
 type Props = {
+  posts: any;
   location: Location.LocationObject;
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +22,9 @@ const incidentTypes = [
   {slug: "collapsed-structure", icon: "building", text: "Collapsed Structure"},
 ];
 
-const ReportFormModal = ({ location, visible, setVisible }: Prop) => {
+const ReportFormModal = ({ posts, setPosts, location, visible, setVisible }: Prop) => {
+  const [description, setDescription] = useState<string | null>(null);
+  const [coordinates, setCoordinates] = useState<Record<string, number>>(location.coords);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const { colors } = useTheme();
 
@@ -65,6 +68,7 @@ const ReportFormModal = ({ location, visible, setVisible }: Prop) => {
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
                 }}
+                onDragEnd={(e) => setCoordinates(e.nativeEvent.coordinate)}
               />
             </MapView>
           </View>
@@ -102,9 +106,22 @@ const ReportFormModal = ({ location, visible, setVisible }: Prop) => {
             multiline={true}
             numberOfLines={8}
             style={{ marginBottom: 32}}
+            onChangeText={(e) => setDescription(e)}
           />
         </View>
         <Button mode="contained" onPress={() => {
+          if (coordinates === null || selectedType === null || description === null) return;
+          const payload = {
+            id: posts.length + 1,
+            coordinates: coordinates,
+            reporter: "User",
+            incidentType: selectedType,
+            description: description,
+            timestamp: Date.now()
+          }
+          setPosts((prev) => {
+            return [...prev, payload];
+          })
           setVisible(false);
         }}>
           Submit
