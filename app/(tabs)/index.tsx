@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 18,
-    paddingTop: 32
   },
   heroWrapper: {
     width: "100%",

@@ -18,10 +18,15 @@ type Props = {
   timestamp: string
 }
 
-const incidentTypeMappings = {
-  "fire": {icon: "fire", text: "Fire"},
-  "car-crash": {icon: "car-crash", text: "Car Accident"}
-}
+// TODO: Refactor (DRY)
+const incidentTypes = [
+  {slug: "fire", icon: "fire", text: "Fire"},
+  {slug: "car-crash", icon: "car-crash", text: "Car Crash"},
+  {slug: "crime", icon: "bomb", text: "Crime"},
+  {slug: "mechanical-failure", icon: "cogs", text: "Mechanical Failure"},
+  {slug: "collapsed-structure", icon: "building", text: "Collapsed Structure"},
+];
+
 
 const ActivityFeedPostCard = ({
   userLocation,
@@ -104,12 +109,12 @@ const ActivityFeedPostCard = ({
           </View>
           <View style={{ flexDirection: "row" }}>
             <FontAwesome5 
-              name={incidentTypeMappings[incidentType]?.icon ?? "fire"}
+              name={incidentTypes.find((type) => type.slug === incidentType).icon}
               size={16}
               color={colors.primary}
             />
             <Text style={{ marginLeft: 4 }}>
-              {incidentTypeMappings[incidentType]?.text ?? "Fire"}
+              {incidentTypes.find((type) => type.slug === incidentType).text}
             </Text>
           </View>
         </View>
