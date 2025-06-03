@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Divider, Surface } from "react-native-paper";
+import { Divider, Portal, Surface } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface SidebarMenuProps {
@@ -21,9 +21,8 @@ interface SidebarMenuProps {
 }
 
 // Get full screen dimensions
-const { width, height } = Dimensions.get("window");
-const SIDEBAR_WIDTH = width * 0.75; // Takes up 75% of screen width
-
+const { width, height } = Dimensions.get("screen"); // Use screen instead of window
+const SIDEBAR_WIDTH = width * 0.85;
 const SidebarMenu = ({
   visible,
   onClose,
@@ -116,7 +115,6 @@ const SidebarMenu = ({
   };
 
   const menuItems = [
-    { icon: "user", label: "Username", value: userName, divider: false },
     {
       icon: "user-circle",
       label: "Account",
@@ -133,7 +131,7 @@ const SidebarMenu = ({
       icon: "cog",
       label: "Settings and Privacy",
       route: "/(tabs)/settings",
-      divider: true,
+      divider: false, // Removed the divider
     },
     {
       icon: "question-circle",
@@ -155,7 +153,7 @@ const SidebarMenu = ({
   }
 
   return (
-    <>
+    <Portal>
       {/* Semi-transparent backdrop covering the entire screen */}
       <Animated.View
         style={[styles.backdrop, { opacity }]}
@@ -181,9 +179,15 @@ const SidebarMenu = ({
         >
           {/* Header with profile and close button */}
           <View style={styles.header}>
-            <View style={styles.avatarContainer}>
-              <View style={styles.avatar}>
-                <FontAwesome name="user" size={32} color="#fff" />
+            <View style={styles.profileSection}>
+              <View style={styles.avatarContainer}>
+                <View style={styles.avatar}>
+                  <FontAwesome name="user" size={32} color="#fff" />
+                </View>
+              </View>
+              <View style={styles.userInfo}>
+                <Text style={styles.userName}>{userName}</Text>
+                <Text style={styles.userStatus}>Online</Text>
               </View>
             </View>
 
@@ -191,6 +195,8 @@ const SidebarMenu = ({
               <MaterialCommunityIcons name="close" size={24} color="#fff" />
             </TouchableOpacity>
           </View>
+
+          <Divider style={styles.headerDivider} />
 
           {/* Menu Items */}
           <View style={styles.menuItems}>
@@ -226,10 +232,11 @@ const SidebarMenu = ({
           </TouchableOpacity>
         </Surface>
       </Animated.View>
-    </>
+    </Portal>
   );
 };
 
+// Update these styles to use much higher zIndex values
 const styles = StyleSheet.create({
   backdrop: {
     position: "absolute",
@@ -238,28 +245,34 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: "#000",
-    zIndex: 999,
+    zIndex: 99999, // Further increased
+    elevation: 15, // Add elevation for Android
   },
   container: {
     position: "absolute",
     top: 0,
     right: 0,
     width: SIDEBAR_WIDTH,
-    height: height, // Use full screen height
-    zIndex: 1000,
+    height: height, // Uses full screen height
+    zIndex: 100000, // Further increased
+    elevation: 16, // Higher elevation than backdrop
   },
   surface: {
     flex: 1,
     backgroundColor: "#222222",
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
     paddingHorizontal: 20,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 20, // Reduced from 30 to account for divider
+  },
+  profileSection: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   avatarContainer: {
     justifyContent: "center",
@@ -272,8 +285,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  userInfo: {
+    marginLeft: 15,
+  },
+  userName: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  userStatus: {
+    color: "#aaa",
+    fontSize: 14,
+  },
   closeButton: {
     padding: 5,
+  },
+  headerDivider: {
+    backgroundColor: "rgba(255,255,255,0.15)",
+    marginBottom: 20,
+    height: 1,
+    marginHorizontal: -20, // This extends beyond the padding to reach the edges
+    width: SIDEBAR_WIDTH, // Make it the full width of the sidebar
   },
   menuItems: {
     flex: 1,
