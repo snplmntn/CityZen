@@ -7,7 +7,7 @@ import * as Location from "expo-location";
 import { useFetchLocation } from "@/hooks";
 import MapActionBar from "@/components/MapActionBar";
 import ReportDetailsModal from "@/components/ReportDetailsModal";
-
+import ReportFormModal from "@/components/ReportFormModal";
 
 const MapScreen = () => {
   const { colors } = useTheme();
@@ -95,7 +95,6 @@ const MapScreen = () => {
         }}
       >
         {// Render reports within 15km(?)
-
           // Render markers
           posts.map((post) => {
             return (
@@ -127,7 +126,11 @@ const MapScreen = () => {
         setShowReportModal={setShowReportModal}
         setShowHelpModal={setShowHelpModal}
       />
-
+      <ReportFormModal
+        location={location}
+        visible={showReportModal}
+        setVisible={setShowReportModal}
+      />
         {
           // Render modals for the reports
           posts.map((post) => {
