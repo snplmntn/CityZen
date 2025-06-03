@@ -1,0 +1,118 @@
+{
+  "safetyTips": [
+    {
+      "icon": "umbrella",
+      "title": "Flood Safety",
+      "description": "Stay informed about weather alerts and avoid flood-prone areas during heavy rain.",
+      "color": "#3B82F6"
+    },
+    {
+      "icon": "shield",
+      "title": "Personal Security",
+      "description": "Stay alert in crowded areas and keep valuables secure when in public spaces.",
+      "color": "#22C55E"
+    },
+    {
+      "icon": "car",
+      "title": "Road Safety",
+      "description": "Drive cautiously during peak hours and be aware of traffic conditions.",
+      "color": "#8B5CF6"
+    }
+  ],
+  "emergencyContacts": [
+    {
+      "category": "police",
+      "icon": "shield",
+      "title": "Police",
+      "color": "#3B82F6",
+      "items": [
+        {
+          "title": "Emergency Hotline",
+          "subtitle": "Available 24/7",
+          "phone": "911",
+          "buttonColor": "#3B82F6"
+        },
+        {
+          "title": "Local Police Station",
+          "subtitle": "San Mateo District",
+          "phone": "Call",
+          "buttonColor": "#3B82F6"
+        }
+      ]
+    },
+    {
+      "category": "fire",
+      "icon": "fire",
+      "title": "Fire Department",
+      "color": "#EF4444",
+      "items": [
+        {
+          "title": "Fire Emergency",
+          "subtitle": "Available 24/7",
+          "phone": "911",
+          "buttonColor": "#EF4444"
+        },
+        {
+          "title": "San Mateo Fire Station",
+          "subtitle": "Gen. Luna Avenue",
+          "phone": "Call",
+          "buttonColor": "#EF4444"
+        }
+      ]
+    },
+    {
+      "category": "medical",
+      "icon": "medical-bag",
+      "title": "Medical Services",
+      "color": "#10B981",
+      "items": [
+        {
+          "title": "Medical Emergency",
+          "subtitle": "Available 24/7",
+          "phone": "911",
+          "buttonColor": "#10B981"
+        },
+        {
+          "title": "San Mateo General Hospital",
+          "subtitle": "Burgos Street",
+          "phone": "Call",
+          "buttonColor": "#10B981"
+        }
+      ]
+    }
+  ],
+  "pollOptions": [
+    { "id": 0, "text": "Yes, significant damage" },
+    { "id": 1, "text": "Yes, minor damage" },
+    { "id": 2, "text": "No damage observed" },
+    { "id": 3, "text": "Not sure" }
+  ],
+  "legalResources": [
+    {
+      "title": "Penal Code 148.5",
+      "description": "False reporting of a crime is punishable by law. Learn about legal consequences.",
+      "type": "Criminal"
+    },
+    {
+      "title": "RA 11934",
+      "description": "Republic Act on community safety and incident reporting requirements.",
+      "type": "Civil"
+    }
+  ],
+  "volunteerOpportunities": [
+    {
+      "title": "Report Validator",
+      "organization": "Safety Council",
+      "hours": "2-4 hours weekly",
+      "type": "Moderator",
+      "typeColor": "#8B5CF6"
+    },
+    {
+      "title": "Safety Patrol",
+      "organization": "Community Watch",
+      "hours": "4 hours weekly",
+      "type": "Field",
+      "typeColor": "#F59E0B"
+    }
+  ]
+}
