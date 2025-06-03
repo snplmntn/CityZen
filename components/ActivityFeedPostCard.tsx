@@ -19,7 +19,8 @@ type Props = {
 }
 
 const incidentTypeMappings = {
-  "fire": {icon: "fire", text: "Fire"}
+  "fire": {icon: "fire", text: "Fire"},
+  "car-crash": {icon: "car-crash", text: "Car Accident"}
 }
 
 const ActivityFeedPostCard = ({
@@ -34,7 +35,7 @@ const ActivityFeedPostCard = ({
   const address = useFetchAddress(incidentCoordinates.latitude, incidentCoordinates.longitude);
 
   return (
-    <Surface style={{ padding: 8, width: "100%" }}>
+    <Surface style={{ padding: 8, width: "100%", backgroundColor: "#222" }} elevation={0}>
       <View style={styles.postHeader}>
         <View style={styles.userInfo}>
           <FontAwesome5 name="user-circle" size={32} color={colors.primary} />
@@ -104,12 +105,12 @@ const ActivityFeedPostCard = ({
           </View>
           <View style={{ flexDirection: "row" }}>
             <FontAwesome5 
-              name={incidentTypeMappings[incidentType].icon}
+              name={incidentTypeMappings[incidentType]?.icon ?? "fire"}
               size={16}
               color={colors.primary}
             />
             <Text style={{ marginLeft: 4 }}>
-              {incidentTypeMappings[incidentType].text}
+              {incidentTypeMappings[incidentType]?.text ?? "Fire"}
             </Text>
           </View>
         </View>
