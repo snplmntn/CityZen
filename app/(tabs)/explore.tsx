@@ -1,7 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { styled } from "nativewind";
 import { useState } from "react";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   Button,
   Card,
@@ -12,12 +17,6 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledTouchableOpacity = styled(TouchableOpacity);
-const StyledScrollView = styled(ScrollView);
-const StyledImage = styled(Image);
 
 const HomeScreen = () => {
   const { colors } = useTheme();
@@ -33,170 +32,140 @@ const HomeScreen = () => {
   };
 
   return (
-    <Surface className="flex-1" elevation={0}>
-      <StyledScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Header - Swapped and replaced icon */}
-        <StyledView className="flex-row justify-between items-center p-4">
-          <Text variant="displayLarge" className="text-indigo-600">
-            Explore
-          </Text>
-          <StyledView className="flex-row">
+    <Surface style={styles.rootContainer} elevation={0}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header - Keeping the existing header */}
+        <View style={styles.header}>
+          <View style={styles.headerIcons}>
+            <IconButton icon="magnify" size={24} onPress={() => {}} />
             <IconButton icon="bell" size={24} onPress={() => {}} />
-            <IconButton icon="cog" size={24} onPress={() => {}} />
-          </StyledView>
-        </StyledView>
+          </View>
+        </View>
 
         {/* Alert Banner */}
-        <Card className="bg-red-50 mx-4 border-l-4 border-red-500">
-          <Card.Content className="p-2">
-            <StyledView className="flex-row items-center">
+        <Card style={styles.alertBanner}>
+          <Card.Content style={styles.alertContent}>
+            <View style={styles.alertRow}>
               <MaterialCommunityIcons
                 name="alert"
                 size={24}
                 color="#EF4444"
-                className="mr-2"
+                style={styles.alertIcon}
               />
-              <StyledText className="font-bold text-red-800">
-                1.2km Nearby Incident
-              </StyledText>
-            </StyledView>
-            <StyledText className="text-red-700 mt-1">
+              <Text style={styles.alertTitle}>1.2km Nearby Incident</Text>
+            </View>
+            <Text style={styles.alertText}>
               Fire reported at Gen. Luna Avenue. Tap for details.
-            </StyledText>
+            </Text>
           </Card.Content>
         </Card>
 
         {/* AI Safety Tips Section */}
-        <StyledView className="my-4 px-4">
-          <StyledView className="flex-row justify-between items-center mb-3">
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
             <Text variant="titleLarge">AI-Powered Safety Tips</Text>
-            <StyledTouchableOpacity>
-              <StyledText style={{ color: colors.primary }}>See All</StyledText>
-            </StyledTouchableOpacity>
-          </StyledView>
+            <TouchableOpacity>
+              <Text style={{ color: colors.primary }}>See All</Text>
+            </TouchableOpacity>
+          </View>
 
-          <StyledScrollView
+          <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            className="-ml-2 pl-2"
+            style={styles.horizontalScroll}
           >
-            <Card
-              className="w-64 mr-3 elevation-2"
-              style={{ backgroundColor: "#3B82F6" }}
-            >
+            <Card style={[styles.tipCard, { backgroundColor: "#3B82F6" }]}>
               <Card.Content>
-                <StyledView className="flex-row">
+                <View style={styles.tipContent}>
                   <MaterialCommunityIcons
                     name="umbrella"
                     size={24}
                     color="white"
-                    className="mr-3 mt-1"
+                    style={styles.tipIcon}
                   />
-                  <StyledView className="flex-1">
-                    <Text
-                      variant="titleMedium"
-                      className="text-white"
-                      numberOfLines={1}
-                    >
+                  <View>
+                    <Text variant="titleMedium" style={styles.whiteText}>
                       Flood Safety
                     </Text>
-                    <StyledText
-                      className="text-white opacity-80"
-                      numberOfLines={3}
-                    >
+                    <Text style={styles.tipText}>
                       Stay informed about weather alerts and avoid flood-prone
                       areas during heavy rain.
-                    </StyledText>
-                  </StyledView>
-                </StyledView>
+                    </Text>
+                  </View>
+                </View>
               </Card.Content>
             </Card>
 
-            <Card
-              className="w-64 mr-3 elevation-2"
-              style={{ backgroundColor: "#22C55E" }}
-            >
+            <Card style={[styles.tipCard, { backgroundColor: "#22C55E" }]}>
               <Card.Content>
-                <StyledView className="flex-row">
+                <View style={styles.tipContent}>
                   <MaterialCommunityIcons
                     name="shield"
                     size={24}
                     color="white"
-                    className="mr-3 mt-1"
+                    style={styles.tipIcon}
                   />
-                  <StyledView className="flex-1">
-                    <Text
-                      variant="titleMedium"
-                      className="text-white"
-                      numberOfLines={1}
-                    >
+                  <View>
+                    <Text variant="titleMedium" style={styles.whiteText}>
                       Personal Security
                     </Text>
-                    <StyledText
-                      className="text-white opacity-80"
-                      numberOfLines={3}
-                    >
+                    <Text style={styles.tipText}>
                       Stay alert in crowded areas and keep valuables secure when
                       in public spaces.
-                    </StyledText>
-                  </StyledView>
-                </StyledView>
+                    </Text>
+                  </View>
+                </View>
               </Card.Content>
             </Card>
 
-            <Card
-              className="w-64 mr-3 elevation-2"
-              style={{ backgroundColor: "#8B5CF6" }}
-            >
+            <Card style={[styles.tipCard, { backgroundColor: "#8B5CF6" }]}>
               <Card.Content>
-                <StyledView className="flex-row">
+                <View style={styles.tipContent}>
                   <MaterialCommunityIcons
                     name="car"
                     size={24}
                     color="white"
-                    className="mr-3 mt-1"
+                    style={styles.tipIcon}
                   />
-                  <StyledView className="flex-1">
-                    <Text
-                      variant="titleMedium"
-                      className="text-white"
-                      numberOfLines={1}
-                    >
+                  <View>
+                    <Text variant="titleMedium" style={styles.whiteText}>
                       Road Safety
                     </Text>
-                    <StyledText
-                      className="text-white opacity-80"
-                      numberOfLines={3}
-                    >
+                    <Text style={styles.tipText}>
                       Drive cautiously during peak hours and be aware of traffic
                       conditions.
-                    </StyledText>
-                  </StyledView>
-                </StyledView>
+                    </Text>
+                  </View>
+                </View>
               </Card.Content>
             </Card>
-          </StyledScrollView>
-        </StyledView>
+          </ScrollView>
+        </View>
 
         {/* Emergency Contacts Section */}
-        <StyledView className="my-4 px-4">
-          <Text variant="titleLarge" className="mb-3">
+        <View style={styles.section}>
+          <Text variant="titleLarge" style={styles.sectionTitle}>
             Emergency Contacts
           </Text>
 
-          <Card className="mb-3">
-            <StyledTouchableOpacity onPress={() => toggleContact("police")}>
-              <StyledView className="flex-row justify-between items-center p-4">
-                <StyledView className="flex-row items-center">
-                  <StyledView className="p-2 rounded-full bg-blue-50 mr-3">
+          <Card style={styles.contactCard}>
+            <TouchableOpacity onPress={() => toggleContact("police")}>
+              <View style={styles.contactHeader}>
+                <View style={styles.contactTitleRow}>
+                  <View
+                    style={[
+                      styles.contactIconBg,
+                      { backgroundColor: "#EBF5FF" },
+                    ]}
+                  >
                     <MaterialCommunityIcons
                       name="shield"
                       size={20}
                       color="#3B82F6"
                     />
-                  </StyledView>
+                  </View>
                   <Text variant="titleMedium">Police</Text>
-                </StyledView>
+                </View>
                 <MaterialCommunityIcons
                   name={
                     expandedContact === "police" ? "chevron-up" : "chevron-down"
@@ -204,23 +173,21 @@ const HomeScreen = () => {
                   size={24}
                   color="#9CA3AF"
                 />
-              </StyledView>
-            </StyledTouchableOpacity>
+              </View>
+            </TouchableOpacity>
 
             {expandedContact === "police" && (
-              <StyledView className="px-4 pb-4">
+              <View style={styles.contactDetail}>
                 <Divider />
-                <StyledView className="flex-row justify-between items-center py-3">
-                  <StyledView>
+                <View style={styles.contactItem}>
+                  <View>
                     <Text variant="titleSmall">Emergency Hotline</Text>
-                    <StyledText className="text-xs text-gray-500">
-                      Available 24/7
-                    </StyledText>
-                  </StyledView>
+                    <Text style={styles.contactSubtitle}>Available 24/7</Text>
+                  </View>
                   <Button
                     mode="contained"
-                    className="rounded-full"
-                    labelStyle={{ fontSize: 12 }}
+                    style={styles.callButton}
+                    labelStyle={styles.buttonLabel}
                     onPress={() => {}}
                   >
                     <MaterialCommunityIcons
@@ -230,18 +197,18 @@ const HomeScreen = () => {
                     />{" "}
                     911
                   </Button>
-                </StyledView>
-                <StyledView className="flex-row justify-between items-center py-3">
-                  <StyledView>
+                </View>
+                <View style={styles.contactItem}>
+                  <View>
                     <Text variant="titleSmall">Local Police Station</Text>
-                    <StyledText className="text-xs text-gray-500">
+                    <Text style={styles.contactSubtitle}>
                       San Mateo District
-                    </StyledText>
-                  </StyledView>
+                    </Text>
+                  </View>
                   <Button
                     mode="contained"
-                    className="rounded-full"
-                    labelStyle={{ fontSize: 12 }}
+                    style={styles.callButton}
+                    labelStyle={styles.buttonLabel}
                     onPress={() => {}}
                   >
                     <MaterialCommunityIcons
@@ -251,24 +218,29 @@ const HomeScreen = () => {
                     />{" "}
                     Call
                   </Button>
-                </StyledView>
-              </StyledView>
+                </View>
+              </View>
             )}
           </Card>
 
-          <Card className="mb-3">
-            <StyledTouchableOpacity onPress={() => toggleContact("fire")}>
-              <StyledView className="flex-row justify-between items-center p-4">
-                <StyledView className="flex-row items-center">
-                  <StyledView className="p-2 rounded-full bg-red-50 mr-3">
+          <Card style={styles.contactCard}>
+            <TouchableOpacity onPress={() => toggleContact("fire")}>
+              <View style={styles.contactHeader}>
+                <View style={styles.contactTitleRow}>
+                  <View
+                    style={[
+                      styles.contactIconBg,
+                      { backgroundColor: "#FEF2F2" },
+                    ]}
+                  >
                     <MaterialCommunityIcons
                       name="fire"
                       size={20}
                       color="#EF4444"
                     />
-                  </StyledView>
+                  </View>
                   <Text variant="titleMedium">Fire Department</Text>
-                </StyledView>
+                </View>
                 <MaterialCommunityIcons
                   name={
                     expandedContact === "fire" ? "chevron-up" : "chevron-down"
@@ -276,23 +248,22 @@ const HomeScreen = () => {
                   size={24}
                   color="#9CA3AF"
                 />
-              </StyledView>
-            </StyledTouchableOpacity>
+              </View>
+            </TouchableOpacity>
 
             {expandedContact === "fire" && (
-              <StyledView className="px-4 pb-4">
+              <View style={styles.contactDetail}>
                 <Divider />
-                <StyledView className="flex-row justify-between items-center py-3">
-                  <StyledView>
+                <View style={styles.contactItem}>
+                  <View>
                     <Text variant="titleSmall">Fire Emergency</Text>
-                    <StyledText className="text-xs text-gray-500">
-                      Available 24/7
-                    </StyledText>
-                  </StyledView>
+                    <Text style={styles.contactSubtitle}>Available 24/7</Text>
+                  </View>
                   <Button
                     mode="contained"
-                    className="rounded-full bg-red-500"
-                    labelStyle={{ fontSize: 12 }}
+                    color="#EF4444"
+                    style={[styles.callButton, { backgroundColor: "#EF4444" }]}
+                    labelStyle={styles.buttonLabel}
                     onPress={() => {}}
                   >
                     <MaterialCommunityIcons
@@ -302,24 +273,29 @@ const HomeScreen = () => {
                     />{" "}
                     911
                   </Button>
-                </StyledView>
-              </StyledView>
+                </View>
+              </View>
             )}
           </Card>
 
-          <Card className="mb-3">
-            <StyledTouchableOpacity onPress={() => toggleContact("medical")}>
-              <StyledView className="flex-row justify-between items-center p-4">
-                <StyledView className="flex-row items-center">
-                  <StyledView className="p-2 rounded-full bg-green-50 mr-3">
+          <Card style={styles.contactCard}>
+            <TouchableOpacity onPress={() => toggleContact("medical")}>
+              <View style={styles.contactHeader}>
+                <View style={styles.contactTitleRow}>
+                  <View
+                    style={[
+                      styles.contactIconBg,
+                      { backgroundColor: "#ECFDF5" },
+                    ]}
+                  >
                     <MaterialCommunityIcons
                       name="medical-bag"
                       size={20}
                       color="#10B981"
                     />
-                  </StyledView>
-                  <Text variant="titleMedium">Medical Services</Text>
-                </StyledView>
+                  </View>
+                  <Text variant="titleMedium">Medical Services</Text>S{" "}
+                </View>
                 <MaterialCommunityIcons
                   name={
                     expandedContact === "medical"
@@ -329,23 +305,22 @@ const HomeScreen = () => {
                   size={24}
                   color="#9CA3AF"
                 />
-              </StyledView>
-            </StyledTouchableOpacity>
+              </View>
+            </TouchableOpacity>
 
             {expandedContact === "medical" && (
-              <StyledView className="px-4 pb-4">
+              <View style={styles.contactDetail}>
                 <Divider />
-                <StyledView className="flex-row justify-between items-center py-3">
-                  <StyledView>
+                <View style={styles.contactItem}>
+                  <View>
                     <Text variant="titleSmall">Medical Emergency</Text>
-                    <StyledText className="text-xs text-gray-500">
-                      Available 24/7
-                    </StyledText>
-                  </StyledView>
+                    <Text style={styles.contactSubtitle}>Available 24/7</Text>
+                  </View>
                   <Button
                     mode="contained"
-                    className="rounded-full bg-green-500"
-                    labelStyle={{ fontSize: 12 }}
+                    color="#10B981"
+                    style={[styles.callButton, { backgroundColor: "#10B981" }]}
+                    labelStyle={styles.buttonLabel}
                     onPress={() => {}}
                   >
                     <MaterialCommunityIcons
@@ -355,61 +330,60 @@ const HomeScreen = () => {
                     />{" "}
                     911
                   </Button>
-                </StyledView>
-              </StyledView>
+                </View>
+              </View>
             )}
           </Card>
-        </StyledView>
+        </View>
 
         {/* Awareness Campaigns */}
-        <StyledView className="my-4 px-4">
-          <Text variant="titleLarge" className="mb-3">
+        <View style={styles.section}>
+          <Text variant="titleLarge" style={styles.sectionTitle}>
             Awareness Campaigns
           </Text>
-          <StyledView className="h-48 relative">
-            <StyledImage
+          <Card style={styles.campaignCard}>
+            <Image
               source={{
                 uri: "https://readdy.ai/api/search-image?query=A%20community%20safety%20awareness%20campaign%20event%20with%20people%20gathered%20around%20information%20booths%2C%20vibrant%20banners%20and%20educational%20materials%2C%20warm%20lighting%2C%20diverse%20crowd%20of%20participants%2C%20urban%20setting%2C%20community%20engagement%20atmosphere&width=800&height=400&seq=1&orientation=landscape",
               }}
-              className="w-full h-full rounded-lg"
+              style={styles.campaignImage}
             />
-            <StyledView className="absolute inset-0 bg-black bg-opacity-40 rounded-lg" />
-            <StyledView className="absolute inset-x-0 bottom-0 p-4">
-              <Text variant="titleLarge" className="text-white">
+            <View style={styles.campaignOverlay} />
+            <View style={styles.campaignContent}>
+              <Text variant="titleLarge" style={styles.whiteText}>
                 Community Safety Month
               </Text>
-              <StyledText className="text-gray-200 text-xs mb-2">
+              <Text style={styles.campaignDate}>
                 June 5-30, 2025 • San Mateo Safety Council
-              </StyledText>
+              </Text>
               <Button
                 mode="contained"
-                className="bg-white self-start rounded-full"
-                labelStyle={{ color: "#3B82F6" }}
+                style={styles.learnMoreButton}
+                labelStyle={styles.learnMoreLabel}
                 onPress={() => {}}
               >
                 Learn More
               </Button>
-            </StyledView>
-          </StyledView>
-        </StyledView>
+            </View>
+          </Card>
+        </View>
 
         {/* Community Polls */}
-        <StyledView className="my-4 px-4">
-          <Text variant="titleLarge" className="mb-3">
+        <View style={styles.section}>
+          <Text variant="titleLarge" style={styles.sectionTitle}>
             Community Polls & Surveys
           </Text>
-          <Card className="mb-4">
+          <Card style={styles.pollCard}>
             <Card.Content>
-              <Text variant="titleMedium" className="mb-4">
+              <Text variant="titleMedium" style={styles.pollTitle}>
                 Have you noticed road damage in your area?
               </Text>
 
-              <StyledTouchableOpacity
-                className={`flex-row items-center p-2 border rounded-lg mb-2 ${
-                  activePoll === 0
-                    ? "bg-blue-50 border-blue-200"
-                    : "border-gray-200"
-                }`}
+              <TouchableOpacity
+                style={[
+                  styles.pollOption,
+                  activePoll === 0 && styles.pollOptionActive,
+                ]}
                 onPress={() => togglePoll(0)}
               >
                 <RadioButton
@@ -418,17 +392,16 @@ const HomeScreen = () => {
                   onPress={() => togglePoll(0)}
                   color={colors.primary}
                 />
-                <StyledText className="ml-2">
+                <Text style={styles.pollOptionText}>
                   Yes, significant damage
-                </StyledText>
-              </StyledTouchableOpacity>
+                </Text>
+              </TouchableOpacity>
 
-              <StyledTouchableOpacity
-                className={`flex-row items-center p-2 border rounded-lg mb-2 ${
-                  activePoll === 1
-                    ? "bg-blue-50 border-blue-200"
-                    : "border-gray-200"
-                }`}
+              <TouchableOpacity
+                style={[
+                  styles.pollOption,
+                  activePoll === 1 && styles.pollOptionActive,
+                ]}
                 onPress={() => togglePoll(1)}
               >
                 <RadioButton
@@ -437,15 +410,14 @@ const HomeScreen = () => {
                   onPress={() => togglePoll(1)}
                   color={colors.primary}
                 />
-                <StyledText className="ml-2">Yes, minor damage</StyledText>
-              </StyledTouchableOpacity>
+                <Text style={styles.pollOptionText}>Yes, minor damage</Text>
+              </TouchableOpacity>
 
-              <StyledTouchableOpacity
-                className={`flex-row items-center p-2 border rounded-lg mb-2 ${
-                  activePoll === 2
-                    ? "bg-blue-50 border-blue-200"
-                    : "border-gray-200"
-                }`}
+              <TouchableOpacity
+                style={[
+                  styles.pollOption,
+                  activePoll === 2 && styles.pollOptionActive,
+                ]}
                 onPress={() => togglePoll(2)}
               >
                 <RadioButton
@@ -454,15 +426,14 @@ const HomeScreen = () => {
                   onPress={() => togglePoll(2)}
                   color={colors.primary}
                 />
-                <StyledText className="ml-2">No damage observed</StyledText>
-              </StyledTouchableOpacity>
+                <Text style={styles.pollOptionText}>No damage observed</Text>
+              </TouchableOpacity>
 
-              <StyledTouchableOpacity
-                className={`flex-row items-center p-2 border rounded-lg mb-2 ${
-                  activePoll === 3
-                    ? "bg-blue-50 border-blue-200"
-                    : "border-gray-200"
-                }`}
+              <TouchableOpacity
+                style={[
+                  styles.pollOption,
+                  activePoll === 3 && styles.pollOptionActive,
+                ]}
                 onPress={() => togglePoll(3)}
               >
                 <RadioButton
@@ -471,23 +442,203 @@ const HomeScreen = () => {
                   onPress={() => togglePoll(3)}
                   color={colors.primary}
                 />
-                <StyledText className="ml-2">Not sure</StyledText>
-              </StyledTouchableOpacity>
+                <Text style={styles.pollOptionText}>Not sure</Text>
+              </TouchableOpacity>
 
-              <StyledView className="flex-row justify-between items-center mt-2">
-                <StyledText className="text-xs text-gray-500">
-                  243 votes
-                </StyledText>
+              <View style={styles.pollFooter}>
+                <Text style={styles.pollVotes}>243 votes</Text>
                 <Button mode="contained" onPress={() => {}}>
                   Submit
                 </Button>
-              </StyledView>
+              </View>
             </Card.Content>
           </Card>
-        </StyledView>
-      </StyledScrollView>
+        </View>
+      </ScrollView>
     </Surface>
   );
 };
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+  },
+  headerIcons: {
+    flexDirection: "row",
+  },
+  section: {
+    marginVertical: 16,
+    paddingHorizontal: 16,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    marginBottom: 12,
+  },
+  horizontalScroll: {
+    marginLeft: -8,
+    paddingLeft: 8,
+  },
+  alertBanner: {
+    backgroundColor: "#FEF2F2",
+    marginHorizontal: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: "#EF4444",
+  },
+  alertContent: {
+    padding: 8,
+  },
+  alertRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  alertIcon: {
+    marginRight: 8,
+  },
+  alertTitle: {
+    fontWeight: "bold",
+    color: "#B91C1C",
+  },
+  alertText: {
+    color: "#B91C1C",
+    marginTop: 4,
+  },
+  tipCard: {
+    width: 250,
+    marginRight: 12,
+    elevation: 2,
+  },
+  tipContent: {
+    flexDirection: "row",
+  },
+  tipIcon: {
+    marginRight: 12,
+    marginTop: 4,
+  },
+  tipText: {
+    color: "rgba(255, 255, 255, 0.8)",
+  },
+  whiteText: {
+    color: "white",
+  },
+  contactCard: {
+    marginBottom: 12,
+  },
+  contactHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+  },
+  contactTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  contactIconBg: {
+    padding: 8,
+    borderRadius: 20,
+    marginRight: 12,
+  },
+  contactDetail: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+  },
+  contactItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 12,
+  },
+  contactSubtitle: {
+    fontSize: 12,
+    color: "#6B7280",
+  },
+  callButton: {
+    borderRadius: 20,
+  },
+  buttonLabel: {
+    fontSize: 12,
+  },
+  campaignCard: {
+    height: 200,
+    position: "relative",
+  },
+  campaignImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
+  },
+  campaignOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    borderRadius: 8,
+  },
+  campaignContent: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 16,
+  },
+  campaignDate: {
+    color: "#E5E7EB",
+    marginBottom: 8,
+    fontSize: 12,
+  },
+  learnMoreButton: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignSelf: "flex-start",
+  },
+  learnMoreLabel: {
+    color: "#3B82F6",
+  },
+  pollCard: {
+    marginBottom: 16,
+  },
+  pollTitle: {
+    marginBottom: 16,
+  },
+  pollOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 8,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  pollOptionActive: {
+    backgroundColor: "#EBF5FF",
+    borderColor: "#BFDBFE",
+  },
+  pollOptionText: {
+    marginLeft: 8,
+  },
+  pollFooter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 8,
+  },
+  pollVotes: {
+    color: "#6B7280",
+    fontSize: 12,
+  },
+});
 
 export default HomeScreen;
