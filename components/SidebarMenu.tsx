@@ -114,7 +114,17 @@ const SidebarMenu = ({
     router.push(route as never);
   };
 
-  const menuItems = [
+  // First, let's create an interface for menu items
+  interface MenuItem {
+    icon: string;
+    label: string;
+    route?: string;
+    divider: boolean;
+    value?: string; // Make the value property optional
+  }
+
+  // Then update your menuItems array to use this type
+  const menuItems: MenuItem[] = [
     {
       icon: "user-circle",
       label: "Account",
@@ -131,7 +141,7 @@ const SidebarMenu = ({
       icon: "cog",
       label: "Settings and Privacy",
       route: "/(tabs)/settings",
-      divider: false, // Removed the divider
+      divider: false,
     },
     {
       icon: "question-circle",
@@ -214,8 +224,8 @@ const SidebarMenu = ({
                     style={styles.menuIcon}
                   />
                   <Text style={styles.menuLabel}>{item.label}</Text>
-                  {item.value && (
-                    <Text style={styles.menuValue}>{item.value}</Text>
+                  {"value" in item && (
+                    <Text style={styles.menuValue}>{item.value as string}</Text>
                   )}
                 </TouchableOpacity>
                 {item.divider && <Divider style={styles.divider} />}
