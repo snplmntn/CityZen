@@ -6,7 +6,7 @@ const CampaignCard = () => {
     <Card style={styles.card}>
       <Image
         source={{
-          uri: "https://via.placeholder.com/600x300/3B82F6/FFFFFF?text=Safety+Awareness+Week",
+          uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqHnXKrIuW8LZR9A1tprqj96Qrw4i4WykGBg&s",
         }}
         style={styles.image}
       />
