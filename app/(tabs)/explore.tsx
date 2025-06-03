@@ -27,6 +27,7 @@ import PollCard from "../../components/explore/PollCard";
 import SafetyTipCard from "../../components/explore/SafetyTipCard";
 import VolunteerCard from "../../components/explore/VolunteerCard";
 import SidebarMenu from "../../components/SidebarMenu";
+import TopBar from "../../components/TopBar";
 
 const HomeScreen = () => {
   const { colors } = useTheme();
@@ -62,20 +63,8 @@ const HomeScreen = () => {
   return (
     <Surface style={styles.rootContainer} elevation={0}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text variant="headlineSmall" style={styles.headerTitle}>
-            Explore
-          </Text>
-          <View style={styles.headerIcons}>
-            <IconButton icon="bell" size={24} onPress={() => {}} />
-            <IconButton
-              icon="menu"
-              size={32}
-              onPress={() => setSidebarVisible(true)}
-            />
-          </View>
-        </View>
+        {/* Use the TopBar component instead of the inline header */}
+        <TopBar title="Explore" onMenuPress={() => setSidebarVisible(true)} />
 
         {/* Alert Banner */}
         <AlertBanner />

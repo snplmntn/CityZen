@@ -5,12 +5,14 @@ import {
   Animated,
   Dimensions,
   PanResponder,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { Divider, Surface } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface SidebarMenuProps {
   visible: boolean;
@@ -18,7 +20,8 @@ interface SidebarMenuProps {
   userName?: string;
 }
 
-const { width } = Dimensions.get("window");
+// Get full screen dimensions
+const { width, height } = Dimensions.get("window");
 const SIDEBAR_WIDTH = width * 0.75; // Takes up 75% of screen width
 
 const SidebarMenu = ({
@@ -29,6 +32,8 @@ const SidebarMenu = ({
   const router = useRouter();
   const translateX = useRef(new Animated.Value(SIDEBAR_WIDTH)).current;
   const opacity = useRef(new Animated.Value(0)).current;
+  const insets = useSafeAreaInsets();
+  const isAnimating = useRef(false);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -54,13 +59,11 @@ const SidebarMenu = ({
   ).current;
 
   useEffect(() => {
-    console.log("Sidebar visibility changed:", visible);
-
     if (visible) {
       // Reset position before animating
       translateX.setValue(SIDEBAR_WIDTH);
 
-      // Add a small delay to ensure the component is mounted
+      // Small delay for smoother animation
       setTimeout(() => {
         openMenu();
       }, 10);
@@ -70,7 +73,7 @@ const SidebarMenu = ({
   }, [visible]);
 
   const openMenu = () => {
-    console.log("Starting open animation");
+    isAnimating.current = true;
     Animated.parallel([
       Animated.timing(translateX, {
         toValue: 0,
@@ -83,11 +86,12 @@ const SidebarMenu = ({
         useNativeDriver: true,
       }),
     ]).start(() => {
-      console.log("Open animation complete");
+      isAnimating.current = false;
     });
   };
 
   const closeMenu = () => {
+    isAnimating.current = true;
     Animated.parallel([
       Animated.timing(translateX, {
         toValue: SIDEBAR_WIDTH,
@@ -100,14 +104,14 @@ const SidebarMenu = ({
         useNativeDriver: true,
       }),
     ]).start(() => {
+      isAnimating.current = false;
       if (visible) onClose();
     });
   };
 
-  // Simple navigation function with type assertion
+  // Navigation function with type assertion
   const navigateTo = (route: string) => {
     onClose();
-    // Use type assertion to avoid TypeScript errors with router
     router.push(route as never);
   };
 
@@ -145,24 +149,36 @@ const SidebarMenu = ({
     },
   ];
 
-  if (!visible && translateX._value === SIDEBAR_WIDTH) {
+  // Don't use _value directly as it's a private property
+  if (!visible && !isAnimating.current) {
     return null; // Don't render anything if not visible and fully offscreen
   }
 
   return (
     <>
-      {/* Semi-transparent backdrop */}
+      {/* Semi-transparent backdrop covering the entire screen */}
       <Animated.View
         style={[styles.backdrop, { opacity }]}
         onTouchStart={onClose}
       />
 
-      {/* Sidebar panel */}
+      {/* Sidebar panel - now spans full height */}
       <Animated.View
         style={[styles.container, { transform: [{ translateX }] }]}
         {...panResponder.panHandlers}
       >
-        <Surface style={styles.surface}>
+        <Surface
+          style={[
+            styles.surface,
+            {
+              paddingTop:
+                insets.top > 0
+                  ? insets.top + 10
+                  : (StatusBar.currentHeight ?? 20) + 20,
+              paddingBottom: insets.bottom > 0 ? insets.bottom + 20 : 30,
+            },
+          ]}
+        >
           {/* Header with profile and close button */}
           <View style={styles.header}>
             <View style={styles.avatarContainer}>
@@ -229,7 +245,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     width: SIDEBAR_WIDTH,
-    height: "100%",
+    height: height, // Use full screen height
     zIndex: 1000,
   },
   surface: {
@@ -237,8 +253,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#222222",
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
-    paddingTop: 50,
-    paddingBottom: 30,
     paddingHorizontal: 20,
   },
   header: {

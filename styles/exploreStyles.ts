@@ -5,19 +5,6 @@ export const exploreStyles = StyleSheet.create({
     flex: 1,
     paddingBottom: 20,
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 16,
-  },
-  headerTitle: {
-    fontWeight: "bold",
-  },
-  headerIcons: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
   section: {
     marginVertical: 8,
     paddingHorizontal: 16,
