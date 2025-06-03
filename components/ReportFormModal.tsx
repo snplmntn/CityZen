@@ -5,6 +5,7 @@ import MapView, { Marker } from "react-native-maps";
 import { useFetchAddress } from "@/hooks";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import * as Location from "expo-location";
+import { useForm, Controller } from "react-hook-form";
 
 type Props = {
   location: Location.LocationObject;
@@ -23,7 +24,13 @@ const incidentTypes = [
 
 const ReportFormModal = ({ location, visible, setVisible }: Prop) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [markerCoordinates, setMarkerCoordinates] = useState<Record<string, any>>(location.coords);
   const { colors } = useTheme();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
 
   return (
     <Modal
@@ -65,6 +72,7 @@ const ReportFormModal = ({ location, visible, setVisible }: Prop) => {
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
                 }}
+                onDragEnd={(e) => setMarkerCoordinates(e.nativeEvent.coordinate)}
               />
             </MapView>
           </View>
