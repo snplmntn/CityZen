@@ -1,5 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   ScrollView,
@@ -13,6 +14,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -52,6 +54,16 @@ const Login = () => {
             paddingBottom: 40,
           }}
         >
+          <TouchableOpacity
+            onPress={() => {
+              router.replace("onboarding/Onboarding");
+            }}
+            style={styles.backButton}
+            accessibilityLabel="Go Back"
+          >
+            <FontAwesome name="chevron-left" size={24} color="#93c5fd" />
+          </TouchableOpacity>
+
           {/* Logo */}
           <View style={styles.logo}>
             <FontAwesome name="shield" size={60} color="#93c5fd" />
@@ -225,6 +237,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
     fontSize: 16,
+  },
+  backButton: {
+    position: "absolute",
+    top: 16,
+    left: 16,
+    zIndex: 10,
+    padding: 10,
   },
   separatorRow: {
     flexDirection: "row",
